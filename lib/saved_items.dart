@@ -49,7 +49,7 @@ class _SavedItemsState extends State<SavedItems> {
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFFEFEFFF),
+            color: const Color(0xFFE0E0E0),
           ),
           child: const TextField(
             decoration: InputDecoration(
