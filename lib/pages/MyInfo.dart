@@ -1,4 +1,3 @@
-import 'package:araplantas_mobile/pages/my-account.dart';
 import 'package:flutter/material.dart';
 
 class MyInfo extends StatefulWidget {
@@ -19,111 +18,48 @@ class _MyInfoState extends State<MyInfo> {
                 backgroundColor: Colors.blue,
               ),
               body: Padding(
-                padding: EdgeInsets.all(30),
+                padding: const EdgeInsets.all(30),
                 child: ListView(
                   children: [
                     Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
-                          child: Container(
+                          child: SizedBox(
                             width: 800,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
-                                Container(
-                                  width: 900,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.grey
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text("Nome",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        Text("Luana Silva",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                const Text("Pessoais",
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-
-                                const SizedBox(
-                                  height: 40,
+                                const SizedBox(height: 40),
+                                buildInfo("Nome Completo", "Luana Silva"),
+                                const SizedBox(height: 40),
+                                buildInfo("Email", "luana.silva@email.com"),
+                                const SizedBox(height: 40),
+                                buildInfo("Celular", "9 9123-4567"),
+                                const SizedBox(height: 40),
+                                const Text("Endereço",
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
                                 ),
-
-                                Container(
-                                  width: 900,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text("Email",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        Text("luana@email.com",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                 ),
-
-                                const SizedBox(
-                                  height: 40,
-                                ),
-
-                                Container(
-                                  width: 900,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text("Cel",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        Text("9 9123-4567",
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                  height: 40,
-                                ),
+                                const SizedBox(height: 40),
+                                buildInfo("CEP", "57123456"),
+                                const SizedBox(height: 40),
+                                buildInfo("Celular", "9 9123-4567"),
+                                const SizedBox(height: 40),
+                                buildInfo("Rua", "Rua das Flores"),
+                                const SizedBox(height: 40),
+                                buildInfo("Bairro", "Lorem Ipsum"),
+                                const SizedBox(height: 40),
+                                buildInfo("Número da Casa", "123"),
+                                const SizedBox(height: 40),
                               ],
                             ),
                           ),
@@ -136,6 +72,38 @@ class _MyInfoState extends State<MyInfo> {
             ),
             );
   }
+}
+
+buildInfo(String campo, String info) {
+  return Container(
+    width: 900,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: const Color(0xffF5F5F5),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:  [
+          Text(campo,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+            ),
+          ),
+          Text(info,
+            style: const TextStyle(
+              fontSize: 25,
+            ),
+          ),
+        ],
+      ),
+
+    ),
+
+  );
+
 }
 
 
