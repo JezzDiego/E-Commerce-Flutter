@@ -58,7 +58,10 @@ class _MyAccountState extends State<MyAccount> {
                   const SizedBox(
                     height: 30,
                   ),
-                  ElevatedButton(
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black,
+                    ),
                     onPressed: (){
 
                     },
@@ -84,13 +87,16 @@ class _MyAccountState extends State<MyAccount> {
                   ),
                 ],
               ),
-              ElevatedButton(
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
+                ),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) {
-                            return MyInfo();
+                            return const MyInfo();
                           },
                       ),
                   );
@@ -115,19 +121,5 @@ class _MyAccountState extends State<MyAccount> {
         )
       ),
     );
-  }
-}
-
-class FirstScreen extends StatelessWidget {
-  const FirstScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    void openScreen(){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const MyInfo();
-      }));
-    }
-    return Container();
   }
 }
