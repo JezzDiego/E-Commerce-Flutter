@@ -63,7 +63,6 @@ class _MyAccountState extends State<MyAccount> {
 
                     },
                     child: Column(
-
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -132,4 +131,3 @@ class FirstScreen extends StatelessWidget {
     return Container();
   }
 }
-
