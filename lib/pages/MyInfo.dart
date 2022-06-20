@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/pages/my-account.dart';
 import 'package:flutter/material.dart';
 
 class MyInfo extends StatefulWidget {
@@ -10,9 +11,7 @@ class MyInfo extends StatefulWidget {
 class _MyInfoState extends State<MyInfo> {
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-        data: MediaQueryData(),
-        child: MaterialApp(
+    return MaterialApp(
             home: Scaffold(
               appBar: AppBar(
                 title: const Text("Minhas Informações"),
@@ -72,12 +71,13 @@ class _MyInfoState extends State<MyInfo> {
                           ),
                         )
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-            ),
-    );
+            );
   }
 }
+
+
