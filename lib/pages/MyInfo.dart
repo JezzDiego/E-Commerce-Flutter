@@ -31,16 +31,21 @@ class _MyInfoState extends State<MyInfo> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
+
                                 Text("Nome",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text("Luana",
+                                Text("Luana Silva",
                                   style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                ),
+
+                                SizedBox(
+                                  height: 40,
                                 ),
 
                                 Text("Celular",
@@ -55,6 +60,10 @@ class _MyInfoState extends State<MyInfo> {
                                   ),
                                 ),
 
+                                SizedBox(
+                                  height: 40,
+                                ),
+
                                 Text("Email",
                                   style: TextStyle(
                                     fontSize: 20,
@@ -65,6 +74,10 @@ class _MyInfoState extends State<MyInfo> {
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                ),
+
+                                SizedBox(
+                                  height: 40,
                                 ),
                               ],
                             ),
