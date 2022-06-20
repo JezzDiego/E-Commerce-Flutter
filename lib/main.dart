@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/item.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,118 +31,107 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Item item1 = Item(name: "produto 1", price: 10, imgUrl: "https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png");
+  Item item2 = Item(name: "produto 2", price: 15, imgUrl: "https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(widget.title),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: CustomSearchDelegate(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
-      ),
-      body: SizedBox(
-        child: SingleChildScrollView(
-          child: Row(
+      body: ListView(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(10, 16, 10, 15),
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFFE0E0E0),
+            ),
+            child: const TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: "Pesquisar",
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            padding: EdgeInsets.all(10),
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                height: 180,
-                width: 180,
-                margin: const EdgeInsets.all(12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    height: 180,
+                    width: 180,
+                    child: Image.network(
+                      item1.imgUrl,
+                      width: 120,
+                      height: 130,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'R\$${item1.price}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                      '${item1.name}',
+                    style: TextStyle(
+                      color: Colors.grey
+                    ),
+                  )
+                ],
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                height: 180,
-                width: 180,
-                margin: const EdgeInsets.all(12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children : [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    height: 180,
+                    width: 180,
+                    child: Image.network(
+                      item2.imgUrl,
+                      width: 120,
+                      height: 130,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'R\$${item2.price}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${item2.name}',
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  )
+                ],
               ),
             ],
           ),
         ),
+      ],
       ),
     );
   }
 }
 
-class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [
-    'Sapato',
-    'Camisa',
-  ];
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      )
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var cloth in searchTerms) {
-      if (cloth.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(cloth);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var cloth in searchTerms) {
-      if (cloth.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(cloth);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-}

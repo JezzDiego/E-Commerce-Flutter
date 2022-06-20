@@ -92,22 +92,22 @@ class _SavedItemCardState extends State<SavedItemCard> {
       children: [
         ClipRRect(
             child: Container(
-          margin: const EdgeInsets.only(left: 9, right: 9),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 4,
+              margin: const EdgeInsets.only(left: 9, right: 9),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 4,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 0.2,
+                ),
+              borderRadius: BorderRadius.circular(8),
           ),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 0.2,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Image.network(
-            widget.item.imgUrl,
-            width: 120,
-            height: 130,
+              child: Image.network(
+                widget.item.imgUrl,
+                width: 120,
+                height: 130,
           ),
         )),
       ],
