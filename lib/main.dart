@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: const MyHomePage(),
+      home: const MyAccount(),
     );
   }
 }
