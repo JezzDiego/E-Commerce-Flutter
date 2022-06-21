@@ -1,5 +1,6 @@
 import 'package:araplantas_mobile/home_items_card.dart';
 import 'package:araplantas_mobile/item.dart';
+import 'package:araplantas_mobile/pages/my-account.dart';
 import 'package:araplantas_mobile/saved_items.dart';
 import 'package:flutter/material.dart';
 
