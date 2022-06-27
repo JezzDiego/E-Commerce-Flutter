@@ -1,8 +1,4 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'item.dart';
 
 class HomeItemCard extends StatefulWidget{
@@ -44,8 +40,8 @@ class _HomeItemCardState extends State<HomeItemCard>{
                     ),
                   ),
                   Text(
-                      '${widget.item.name}',
-                    style: TextStyle(
+                      widget.item.name,
+                    style: const TextStyle(
                       color: Colors.grey
                     ),
                   )

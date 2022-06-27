@@ -1,8 +1,4 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'home_items_card.dart';
 import 'item.dart';
 
@@ -40,7 +36,7 @@ class _HomePage extends State<MyHomePage> {
   buildBody() {
     return ListView(
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 50),
         const Text("Produtos",
             style: TextStyle(
               fontSize: 25,
@@ -68,7 +64,7 @@ class _HomePage extends State<MyHomePage> {
             ),
           ),
         SingleChildScrollView(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

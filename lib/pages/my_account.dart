@@ -1,4 +1,4 @@
-import 'package:araplantas_mobile/pages/MyInfo.dart';
+import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:flutter/material.dart';
 
 class MyAccount extends StatefulWidget {
@@ -118,27 +118,6 @@ class _MyAccountState extends State<MyAccount> {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.black),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.work_outline, color: Colors.black),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star_border, color: Colors.black),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined, color: Colors.black),
-              label: '',
-            ),
-          ],
-          backgroundColor: Colors.blue,
         ),
       ),
     );

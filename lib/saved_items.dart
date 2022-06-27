@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,9 +37,9 @@ class _SavedItemsState extends State<SavedItems> {
   buildBody() {
     return ListView(
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: buildText(text: "itens salvos",fontSize: 40,isBold: true),
         ),
         Container(
