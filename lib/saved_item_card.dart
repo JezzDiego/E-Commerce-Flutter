@@ -50,14 +50,16 @@ class _SavedItemCardState extends State<SavedItemCard> {
                     ),
                     const SizedBox(height: 8),
                     Container(
-                      margin: const EdgeInsets.only(top: 42),
+                      width: 180,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          print("apertou");
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: const Color(0xFFFEE440),
                           shadowColor: Colors.transparent,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 17),
+                              horizontal: 20, vertical: 10),
                           textStyle: const TextStyle(
                             fontSize: 17,
                           ),
@@ -71,6 +73,9 @@ class _SavedItemCardState extends State<SavedItemCard> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 25,
+                    )
                   ],
                 ),
               ],
@@ -78,7 +83,9 @@ class _SavedItemCardState extends State<SavedItemCard> {
             IconButton(
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
-              onPressed: () {},
+              onPressed: () {
+                print("sair");
+              },
             ),
           ],
         ),
