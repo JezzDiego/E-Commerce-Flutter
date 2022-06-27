@@ -30,29 +30,29 @@ class _FooterState extends State<Footer> {
     return Scaffold(
       body: _screens[_actualIndex],
       bottomNavigationBar: BottomNavigationBar(
+
         onTap: onTabTapped,
         currentIndex: _actualIndex,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined, color: Colors.black),
-            label: '',
+            label: 'Home',
             tooltip: 'Página Inicial',
             activeIcon: Icon(Icons.home, color: Colors.black),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star_border, color: Colors.black),
-            label: '',
+            label: 'Itens Salvos',
             tooltip: 'Itens salvos',
             activeIcon: Icon(Icons.star, color: Colors.black),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined, color: Colors.black),
-            label: '',
+            label: 'Perfil',
             tooltip: 'Meu Perfil',
             activeIcon: Icon(Icons.account_circle, color: Colors.black),
           ),
         ],
-        backgroundColor: Colors.white
       ),
     );
   }
