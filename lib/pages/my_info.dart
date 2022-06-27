@@ -32,7 +32,7 @@ class _MyInfoState extends State<MyInfo> {
                               children: [
                                 const Text("Pessoais",
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 35,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -45,7 +45,7 @@ class _MyInfoState extends State<MyInfo> {
                                 const SizedBox(height: 40),
                                 const Text("Endereço",
                                 style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 35,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 ),
@@ -89,12 +89,12 @@ buildInfo(String campo, String info) {
           Text(campo,
             style: const TextStyle(
               color: Colors.grey,
-              fontSize: 16,
+              fontSize: 15,
             ),
           ),
           Text(info,
             style: const TextStyle(
-              fontSize: 25,
+              fontSize: 22,
             ),
           ),
         ],

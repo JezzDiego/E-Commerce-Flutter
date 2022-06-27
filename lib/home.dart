@@ -15,15 +15,15 @@ class MyHomePage extends StatefulWidget{
 class _HomePage extends State<MyHomePage> {
   Item item1 = Item(
     name: 'Item 1',
-    price: 1.99,
+    price: 629.80,
     imgUrl:
-        'https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png',
+        'https://http2.mlstatic.com/D_NQ_NP_755864-MLB31865914502_082019-O.jpg',
   );
   Item item2 = Item(
     name: 'Item 2',
-    price: 5.00,
+    price: 2599.90,
     imgUrl:
-        'https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
   );
 
   @override

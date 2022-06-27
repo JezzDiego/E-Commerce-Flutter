@@ -20,7 +20,7 @@ class _HomeItemCardState extends State<HomeItemCard>{
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     height: 180,
                     width: 180,

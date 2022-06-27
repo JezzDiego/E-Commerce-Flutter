@@ -14,15 +14,15 @@ class SavedItems extends StatefulWidget {
 class _SavedItemsState extends State<SavedItems> {
   Item item1 = Item(
     name: 'Item 1',
-    price: 1.99,
+    price: 2599,
     imgUrl:
-        'https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
   );
   Item item2 = Item(
     name: 'Item 2',
-    price: 5.00,
+    price: 3.00,
     imgUrl:
-        'https://w7.pngwing.com/pngs/308/106/png-transparent-iphone-computer-icons-cell-phone-gadget-electronics-telephone-call.png',
+        'https://i.pinimg.com/originals/d5/fc/38/d5fc38248b3dc4f3c614bbecfc3605c9.jpg',
   );
   
   var alalItems =[];
