@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/carrinho.dart';
 import 'package:araplantas_mobile/pages/my_account.dart';
 import 'package:araplantas_mobile/saved_items.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class _FooterState extends State<Footer> {
   int _actualIndex = 0;
   final List<Widget> _screens = [
     const MyHomePage(),
+    const Carrinho(),
     const SavedItems(),
     const MyAccount(),
   ];
@@ -30,7 +32,8 @@ class _FooterState extends State<Footer> {
     return Scaffold(
       body: _screens[_actualIndex],
       bottomNavigationBar: BottomNavigationBar(
-
+        selectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
         currentIndex: _actualIndex,
         items: const [
@@ -39,6 +42,12 @@ class _FooterState extends State<Footer> {
             label: 'Home',
             tooltip: 'Página Inicial',
             activeIcon: Icon(Icons.home, color: Colors.black),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_outlined, color: Colors.black),
+            label: 'Carrinho',
+            tooltip: 'Carrinho',
+            activeIcon: Icon(Icons.shopping_cart, color: Colors.black),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star_border, color: Colors.black),
