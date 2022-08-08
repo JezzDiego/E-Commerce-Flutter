@@ -75,17 +75,14 @@ class _MyOrdersState extends State<MyOrders> {
                   child: Row(
                     children: [
                       Container(
-                        width: 100,
-                        height: 100,
+                        width: 115,
+                        height: 115,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: Colors.grey
-                          ),
+                          border: Border.all(color: Colors.grey.shade300),
                           image: const DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSebLzQHeNYV0TVtz49fMdUANYfv1tcX9off2lbzaUFhqGAk-6zjQr6xhdyEnAY343KW2Y&usqp=CAU"),
+                            image: AssetImage("images/printer.png"),
                           ),
                         ),
                       ),
