@@ -1,4 +1,5 @@
 import 'package:araplantas_mobile/pages/my_info.dart';
+import 'package:araplantas_mobile/pages/my_orders.dart';
 import 'package:flutter/material.dart';
 
 class MyAccount extends StatefulWidget {
@@ -12,16 +13,18 @@ class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Minha Conta'),
           centerTitle: false,
           backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
         ),
         body: ListView(
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -62,7 +65,9 @@ class _MyAccountState extends State<MyAccount> {
                     primary: Colors.black,
                   ),
                   onPressed: (){
-
+                    Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                      return const MyOrders();
+                    })));
                   },
                   child: Column(
                     children: [
@@ -91,14 +96,9 @@ class _MyAccountState extends State<MyAccount> {
                 primary: Colors.black,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) {
-                          return const MyInfo();
-                        },
-                    ),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                      return const MyInfo();
+                    })));
               },
               child: Padding(
                 padding: const EdgeInsets.all(10),
