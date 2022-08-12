@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'item.dart';
-import 'saved_item_card.dart';
+import '../components/item.dart';
+import '../components/saved_item_card.dart';
 
 class SavedItems extends StatefulWidget {
   const SavedItems({Key? key}) : super(key: key);
@@ -24,8 +23,8 @@ class _SavedItemsState extends State<SavedItems> {
     imgUrl:
         'https://i.pinimg.com/originals/d5/fc/38/d5fc38248b3dc4f3c614bbecfc3605c9.jpg',
   );
-  
-  var alalItems =[];
+
+  var alalItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class _SavedItemsState extends State<SavedItems> {
         const SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.all(15),
-          child: buildText(text: "itens salvos",fontSize: 40,isBold: true),
+          child: buildText(text: "itens salvos", fontSize: 40, isBold: true),
         ),
         Container(
           margin: const EdgeInsets.fromLTRB(10, 16, 10, 30),
@@ -66,14 +65,14 @@ class _SavedItemsState extends State<SavedItems> {
       ],
     );
   }
-  
+
   Text buildText({
     required String text,
     double fontSize = 14,
     bool isBold = false,
     Color color = Colors.black,
-  }){
-    return Text( 
+  }) {
+    return Text(
       text,
       style: GoogleFonts.inter(
         color: color,

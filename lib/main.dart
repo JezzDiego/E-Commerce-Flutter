@@ -1,5 +1,5 @@
-import 'package:araplantas_mobile/initial_screen.dart';
 import 'package:flutter/material.dart';
+import 'components/initial_screen.dart';
 
 void main() {
   runApp(const HomePage());
@@ -21,5 +21,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
