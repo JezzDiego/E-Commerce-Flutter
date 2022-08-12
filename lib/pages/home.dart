@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'home_items_card.dart';
-import 'item.dart';
+import '../components/home_items_card.dart';
+import '../components/item.dart';
 
-
-class MyHomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
-
   @override
-  _HomePage createState()=> _HomePage();
-
+  _HomePage createState() => _HomePage();
 }
 
 class _HomePage extends State<MyHomePage> {
@@ -37,35 +34,36 @@ class _HomePage extends State<MyHomePage> {
     return ListView(
       children: [
         const SizedBox(height: 50),
-        const Text("Produtos",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+        const Text(
+          "Produtos",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
+        ),
         Container(
-            margin: const EdgeInsets.fromLTRB(10, 16, 10, 15),
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFFE0E0E0),
-            ),
-            child: const TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: "Pesquisar",
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
-                ),
+          margin: const EdgeInsets.fromLTRB(10, 16, 10, 15),
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: const Color(0xFFE0E0E0),
+          ),
+          child: const TextField(
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.search),
+              hintText: "Pesquisar",
+              border: InputBorder.none,
+              hintStyle: TextStyle(
+                fontSize: 20,
+                color: Colors.grey,
               ),
             ),
           ),
+        ),
         SingleChildScrollView(
-            padding: const EdgeInsets.all(10),
-            child: Row(
+          padding: const EdgeInsets.all(10),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               HomeItemCard(item: item1),

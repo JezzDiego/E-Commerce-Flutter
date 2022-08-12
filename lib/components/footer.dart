@@ -1,9 +1,8 @@
-import 'package:araplantas_mobile/carrinho.dart';
 import 'package:araplantas_mobile/pages/my_account.dart';
-import 'package:araplantas_mobile/saved_items.dart';
 import 'package:flutter/material.dart';
-
-import 'home.dart';
+import '../pages/carrinho.dart';
+import '../pages/home.dart';
+import '../pages/saved_items.dart';
 
 class Footer extends StatefulWidget {
   const Footer({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class _FooterState extends State<Footer> {
     const MyAccount(),
   ];
 
-  void onTabTapped (int index) {
+  void onTabTapped(int index) {
     setState(() {
       _actualIndex = index;
     });
