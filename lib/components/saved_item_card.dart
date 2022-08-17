@@ -49,12 +49,10 @@ class _SavedItemCardState extends State<SavedItemCard> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Container(
+                    SizedBox(
                       width: 180,
                       child: ElevatedButton(
-                        onPressed: () {
-                          print("apertou");
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           primary: const Color(0xFFFEE440),
                           shadowColor: Colors.transparent,
@@ -83,9 +81,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
             IconButton(
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
-              onPressed: () {
-                print("sair");
-              },
+              onPressed: () {},
             ),
           ],
         ),
@@ -98,22 +94,22 @@ class _SavedItemCardState extends State<SavedItemCard> {
       children: [
         ClipRRect(
             child: Container(
-              margin: const EdgeInsets.only(left: 9, right: 9),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 0.2,
-                ),
-              borderRadius: BorderRadius.circular(8),
+          margin: const EdgeInsets.only(left: 9, right: 9),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 4,
           ),
-              child: Image.network(
-                widget.item.imgUrl,
-                width: 120,
-                height: 130,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
+              width: 0.2,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Image.network(
+            widget.item.imgUrl,
+            width: 120,
+            height: 130,
           ),
         )),
       ],
