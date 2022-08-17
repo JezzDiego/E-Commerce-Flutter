@@ -1,5 +1,5 @@
+import 'package:araplantas_mobile/pages/login.dart';
 import 'package:flutter/material.dart';
-import 'components/initial_screen.dart';
 
 void main() {
   runApp(const HomePage());
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: const InitialScreen(),
+      home: const Login(),
     );
   }
 }
