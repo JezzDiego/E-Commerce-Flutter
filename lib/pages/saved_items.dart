@@ -28,41 +28,48 @@ class _SavedItemsState extends State<SavedItems> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: buildBody(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Itens Salvos'),
+          centerTitle: false,
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+        body: buildBody(),
+      ),
     );
   }
 
   buildBody() {
-    return ListView(
-      children: [
-        const SizedBox(height: 50),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: buildText(text: "itens salvos", fontSize: 40, isBold: true),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(10, 16, 10, 30),
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color(0xFFE0E0E0),
-          ),
-          child: const TextField(
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: "pesquisar",
-              border: InputBorder.none,
-              hintStyle: TextStyle(
-                fontSize: 20,
-                color: Colors.grey,
+    return Scaffold(
+      body: ListView(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(10, 16, 10, 30),
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFFE0E0E0),
+            ),
+            child: const TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: "pesquisar",
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
               ),
             ),
           ),
-        ),
-        SavedItemCard(item: item1),
-        SavedItemCard(item: item2),
-      ],
+          SavedItemCard(item: item1),
+          SavedItemCard(item: item2),
+        ],
+      ),
     );
   }
 
