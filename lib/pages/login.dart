@@ -176,6 +176,10 @@ onPressed(
           context: context,
           builder: (context) => AlertDialog(
                 title: const Text("Erro"),
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
                 content: const Text("Usuário ou senha incorretos"),
                 actions: [
                   TextButton(
@@ -194,8 +198,12 @@ onPressed(
         context: context,
         builder: (context) => AlertDialog(
               title: const Text("Erro"),
+              titleTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24),
               content: const Text(
-                  "Houve um erro ao tentar se conectar ao servidor, tente novamente mais tarde"),
+                  "Houve um erro ao tentar se conectarverifique se todos os campos foram preenchidos"),
               actions: [
                 TextButton(
                     onPressed: () {
