@@ -81,10 +81,10 @@ class _LoginState extends State<Login> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 70),
+                      const SizedBox(height: 50),
                       buildButton(context, _formKey, emailController,
                           passwordController),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,20 +131,21 @@ buildButton(
     TextEditingController emailController,
     TextEditingController passwordController) {
   return Center(
-    child: Container(
+    child: SizedBox(
       width: 240,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: const Color.fromARGB(255, 255, 235, 105)),
+      height: 50,
       child: TextButton(
         onPressed: () {
           onPressed(context, _formKey, emailController, passwordController);
         },
         child: const Text("Login", style: TextStyle(fontSize: 24)),
         style: TextButton.styleFrom(
-            primary: Colors.black,
-            backgroundColor: Colors.transparent,
-            padding: const EdgeInsets.all(16)),
+          primary: Colors.black,
+          backgroundColor: const Color.fromARGB(255, 255, 235, 105),
+          padding: const EdgeInsets.all(0),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        ),
       ),
     ),
   );
