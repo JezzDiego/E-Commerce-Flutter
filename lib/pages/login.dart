@@ -204,7 +204,7 @@ onPressed(
                   fontWeight: FontWeight.bold,
                   fontSize: 24),
               content: const Text(
-                  "Houve um erro ao tentar se conectarverifique se todos os campos foram preenchidos"),
+                  "Houve um erro ao tentar se conectar verifique se todos os campos foram preenchidos"),
               actions: [
                 TextButton(
                     onPressed: () {
