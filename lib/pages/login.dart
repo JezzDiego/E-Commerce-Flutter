@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/components/initial_screen.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +11,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +55,13 @@ class _LoginState extends State<Login> {
                             fontWeight: FontWeight.bold, fontSize: 24),
                       ),
                       TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo obrigatório";
+                          }
+                          return null;
+                        },
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 40),
@@ -62,9 +73,17 @@ class _LoginState extends State<Login> {
                       TextFormField(
                         obscureText: true,
                         keyboardType: TextInputType.emailAddress,
+                        controller: passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo obrigatório";
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 70),
-                      buildButton(),
+                      buildButton(context, _formKey, emailController,
+                          passwordController),
                       const SizedBox(height: 40),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +125,11 @@ buildHorizontalLine() {
   );
 }
 
-buildButton() {
+buildButton(
+    BuildContext context,
+    GlobalKey<FormState> _formKey,
+    TextEditingController emailController,
+    TextEditingController passwordController) {
   return Center(
     child: Container(
       width: 240,
@@ -114,7 +137,9 @@ buildButton() {
           borderRadius: BorderRadius.circular(40),
           color: const Color.fromARGB(255, 255, 235, 105)),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          onPressed(context, _formKey, emailController, passwordController);
+        },
         child: const Text("Login", style: TextStyle(fontSize: 24)),
         style: TextButton.styleFrom(
             primary: Colors.black,
@@ -123,4 +148,64 @@ buildButton() {
       ),
     ),
   );
+}
+
+onPressed(
+    BuildContext context,
+    GlobalKey<FormState> _formKey,
+    TextEditingController emailController,
+    TextEditingController passwordController) {
+  if (_formKey.currentState!.validate()) {
+    String getUser = emailController.text;
+    String getPassword = passwordController.text;
+
+    String user = "teste@gmail.com";
+    String password = "123456";
+
+    if (user == getUser && password == getPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const InitialScreen();
+          },
+        ),
+      );
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Erro"),
+                content: const Text("Usuário ou senha incorretos"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ],
+              ));
+    }
+  } else {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Erro"),
+              content: const Text(
+                  "Houve um erro ao tentar se conectar ao servidor, tente novamente mais tarde"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "OK",
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ],
+            ));
+  }
 }
