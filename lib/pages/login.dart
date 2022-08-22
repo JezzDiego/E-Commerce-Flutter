@@ -1,4 +1,5 @@
 import 'package:araplantas_mobile/components/initial_screen.dart';
+import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -204,7 +205,7 @@ class _LoginState extends State<Login> {
                       ),
                       TextFormField(
                         obscureText: true,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.visiblePassword,
                         controller: passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -229,7 +230,6 @@ class _LoginState extends State<Login> {
                                 primary: Colors.black,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 235, 105),
-                                padding: const EdgeInsets.all(0),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(50)),
                               ),
@@ -262,6 +262,23 @@ class _LoginState extends State<Login> {
                             icon: const Image(
                               image: AssetImage("images/google.png"),
                             )),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Não tem uma contra? "),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(
+                                  builder: (context) {
+                                    return const SignUp();
+                                  },
+                                ));
+                              },
+                              child: const Text("Cadastre-se"))
+                        ],
                       )
                     ],
                   ),
