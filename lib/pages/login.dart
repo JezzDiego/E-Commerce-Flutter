@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 24),
-                content: Text(verifyContent(e)),
+                content: Text(verifyContent(e.code)),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -247,25 +247,26 @@ buildHorizontalLine() {
   }
 }*/
 
-String verifyContent(e) {
-  String text = "Algo deu errado ao tentar fazer login";
+String verifyContent(String e) {
+  String message = "Algo deu errado ao tentar fazer login";
   switch (e) {
     case "invalid-email":
-      text = "O mail digitado é inválido";
+      message = "O mail digitado é inválido";
       break;
 
     case "user-disabled":
-      text = "Usuário desabilitado";
+      message = "Usuário desabilitado";
       break;
 
     case "user-not-found":
-      text = "Não há usuário cadastrado com o email informardo";
+      message = "Não há usuário cadastrado com o email informardo";
       break;
 
     case "wrong-password":
-      text = "Senha incorreta, verifique tente novamente";
+      message = "Senha incorreta, verifique tente novamente";
       break;
     default:
+      break;
   }
-  return text;
+  return message;
 }
