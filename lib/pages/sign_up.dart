@@ -214,6 +214,8 @@ buildTextFormField(bool obscureText, TextEditingController controller,
     validator: (value) {
       if (value == null || value.isEmpty) {
         return "Campo obrigatório";
+      } else if (value.length < 3) {
+        return "O campo deve ter mais de 3 caracteres";
       }
       return null;
     },
