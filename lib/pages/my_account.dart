@@ -1,5 +1,7 @@
+import 'package:araplantas_mobile/pages/login.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyAccount extends StatefulWidget {
@@ -71,7 +73,7 @@ class _MyAccountState extends State<MyAccount> {
                         padding: const EdgeInsets.all(10.0),
                         child: Row(
                           children: const [
-                            Icon(Icons.shopping_bag),
+                            Icon(Icons.shopping_bag_outlined),
                             Padding(
                               padding: EdgeInsetsDirectional.only(start: 20),
                               child: Text(
@@ -100,7 +102,7 @@ class _MyAccountState extends State<MyAccount> {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: const [
-                    Icon(Icons.person),
+                    Icon(Icons.person_outline),
                     Padding(
                       padding: EdgeInsetsDirectional.only(start: 20),
                       child: Text(
@@ -113,6 +115,33 @@ class _MyAccountState extends State<MyAccount> {
               ),
             ),
           ],
+        ),
+        bottomSheet: TextButton(
+          style: TextButton.styleFrom(
+              primary: Colors.black, backgroundColor: Colors.white),
+          onPressed: () {
+            FirebaseAuth.instance.signOut().then((value) => {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: ((context) {
+                    return const Login();
+                  })))
+                });
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: const [
+                Icon(Icons.exit_to_app_outlined),
+                Padding(
+                  padding: EdgeInsetsDirectional.only(start: 20),
+                  child: Text(
+                    'Sair',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
