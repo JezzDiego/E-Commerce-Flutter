@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "794908656712",
+    "project_id": "araplantas-mobile",
+    "storage_bucket": "araplantas-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794908656712:android:570aefe66bfcc8fa81447d",
+        "android_client_info": {
+          "package_name": "com.example.araplantas_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794908656712-mb2ilcsft1pm7ncq858jvikqieaksgvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGBC5kg0X9sZVsr16OloTUiGsgGcTnqXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794908656712-mb2ilcsft1pm7ncq858jvikqieaksgvi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

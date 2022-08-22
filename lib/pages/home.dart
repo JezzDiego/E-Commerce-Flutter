@@ -25,23 +25,24 @@ class _HomePage extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: buildBody(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Produtos'),
+          centerTitle: true,
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+        body: buildBody(),
+      ),
     );
   }
 
   buildBody() {
     return ListView(
       children: [
-        const SizedBox(height: 50),
-        const Text(
-          "Produtos",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
         Container(
           margin: const EdgeInsets.fromLTRB(10, 16, 10, 15),
           padding: const EdgeInsets.all(6),
