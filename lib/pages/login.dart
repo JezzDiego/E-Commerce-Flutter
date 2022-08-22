@@ -15,7 +15,13 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool isLoggingIn = false;
+
   _logIn() async {
+    setState(() {
+      isLoggingIn = true;
+    });
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
@@ -45,6 +51,10 @@ class _LoginState extends State<Login> {
                       )),
                 ],
               ));
+    } finally {
+      setState(() {
+        isLoggingIn = false;
+      });
     }
   }
 
@@ -116,27 +126,32 @@ class _LoginState extends State<Login> {
                         },
                       ),
                       const SizedBox(height: 50),
-                      Center(
-                        child: SizedBox(
-                          width: 240,
-                          height: 50,
-                          child: TextButton(
-                            onPressed: () {
-                              _logIn();
-                            },
-                            child: const Text("Login",
-                                style: TextStyle(fontSize: 24)),
-                            style: TextButton.styleFrom(
-                              primary: Colors.black,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 235, 105),
-                              padding: const EdgeInsets.all(0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50)),
+                      if (!isLoggingIn)
+                        Center(
+                          child: SizedBox(
+                            width: 240,
+                            height: 50,
+                            child: TextButton(
+                              onPressed: () {
+                                _logIn();
+                              },
+                              child: const Text("Login",
+                                  style: TextStyle(fontSize: 24)),
+                              style: TextButton.styleFrom(
+                                primary: Colors.black,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 235, 105),
+                                padding: const EdgeInsets.all(0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      if (isLoggingIn)
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
