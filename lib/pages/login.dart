@@ -304,7 +304,7 @@ String verifyContent(String e) {
   String message = "Algo deu errado ao tentar fazer login";
   switch (e) {
     case "invalid-email":
-      message = "O mail digitado é inválido";
+      message = "O email digitado é inválido";
       break;
 
     case "user-disabled":
