@@ -1,4 +1,6 @@
 import 'package:araplantas_mobile/components/initial_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +15,39 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  _logIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return const InitialScreen();
+        },
+      ));
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Erro"),
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+                content: Text(verifyContent(e)),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ],
+              ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +117,27 @@ class _LoginState extends State<Login> {
                         },
                       ),
                       const SizedBox(height: 50),
-                      buildButton(context, _formKey, emailController,
-                          passwordController),
+                      Center(
+                        child: SizedBox(
+                          width: 240,
+                          height: 50,
+                          child: TextButton(
+                            onPressed: () {
+                              _logIn();
+                            },
+                            child: const Text("Login",
+                                style: TextStyle(fontSize: 24)),
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 235, 105),
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -125,33 +179,7 @@ buildHorizontalLine() {
   );
 }
 
-buildButton(
-    BuildContext context,
-    GlobalKey<FormState> _formKey,
-    TextEditingController emailController,
-    TextEditingController passwordController) {
-  return Center(
-    child: SizedBox(
-      width: 240,
-      height: 50,
-      child: TextButton(
-        onPressed: () {
-          onPressed(context, _formKey, emailController, passwordController);
-        },
-        child: const Text("Login", style: TextStyle(fontSize: 24)),
-        style: TextButton.styleFrom(
-          primary: Colors.black,
-          backgroundColor: const Color.fromARGB(255, 255, 235, 105),
-          padding: const EdgeInsets.all(0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        ),
-      ),
-    ),
-  );
-}
-
-onPressed(
+/*onPressed(
     BuildContext context,
     GlobalKey<FormState> _formKey,
     TextEditingController emailController,
@@ -217,4 +245,27 @@ onPressed(
               ],
             ));
   }
+}*/
+
+String verifyContent(e) {
+  String text = "Algo deu errado ao tentar fazer login";
+  switch (e) {
+    case "invalid-email":
+      text = "O mail digitado é inválido";
+      break;
+
+    case "user-disabled":
+      text = "Usuário desabilitado";
+      break;
+
+    case "user-not-found":
+      text = "Não há usuário cadastrado com o email informardo";
+      break;
+
+    case "wrong-password":
+      text = "Senha incorreta, verifique tente novamente";
+      break;
+    default:
+  }
+  return text;
 }
