@@ -1,6 +1,5 @@
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 
@@ -178,74 +177,6 @@ buildHorizontalLine() {
     size: 80,
   );
 }
-
-/*onPressed(
-    BuildContext context,
-    GlobalKey<FormState> _formKey,
-    TextEditingController emailController,
-    TextEditingController passwordController) {
-  if (_formKey.currentState!.validate()) {
-    String getUser = emailController.text;
-    String getPassword = passwordController.text;
-
-    String user = "teste@gmail.com";
-    String password = "123456";
-
-    if (user == getUser && password == getPassword) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return const InitialScreen();
-          },
-        ),
-      );
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text("Erro"),
-                titleTextStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
-                content: const Text("Usuário ou senha incorretos"),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "OK",
-                        style: TextStyle(color: Colors.black),
-                      )),
-                ],
-              ));
-    }
-  } else {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: const Text("Erro"),
-              titleTextStyle: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24),
-              content: const Text(
-                  "Houve um erro ao tentar se conectar verifique se todos os campos foram preenchidos"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      "OK",
-                      style: TextStyle(color: Colors.black),
-                    )),
-              ],
-            ));
-  }
-}*/
 
 String verifyContent(String e) {
   String message = "Algo deu errado ao tentar fazer login";
