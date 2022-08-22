@@ -1,7 +1,9 @@
 import 'package:araplantas_mobile/components/initial_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,11 +17,11 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool isLoggingIn = false;
+  bool loading = false;
 
   _logIn() async {
     setState(() {
-      isLoggingIn = true;
+      loading = true;
     });
 
     try {
@@ -53,7 +55,93 @@ class _LoginState extends State<Login> {
               ));
     } finally {
       setState(() {
-        isLoggingIn = false;
+        loading = false;
+      });
+    }
+  }
+
+  _loginWithGoogle() async {
+    setState(() {
+      loading = true;
+    });
+
+    final googleSignIn = GoogleSignIn(scopes: ['email']);
+
+    try {
+      final googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
+
+      final googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseFirestore.instance.collection('users').add({
+        'email': googleSignInAccount.email,
+        'imageUrl': googleSignInAccount.photoUrl,
+        'name': googleSignInAccount.displayName,
+      });
+
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return const InitialScreen();
+        },
+      ));
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Erro"),
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+                content: Text(verifyGoogleContent(e.code)),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ],
+              ));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("Erro"),
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+                content: const Text(
+                    "Ocorreu um erro desconhecido, verifique sua conexão e tente novamente mais tarde"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ],
+              ));
+    } finally {
+      setState(() {
+        loading = false;
       });
     }
   }
@@ -126,7 +214,7 @@ class _LoginState extends State<Login> {
                         },
                       ),
                       const SizedBox(height: 50),
-                      if (!isLoggingIn)
+                      if (!loading)
                         Center(
                           child: SizedBox(
                             width: 240,
@@ -148,7 +236,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                      if (isLoggingIn)
+                      if (loading)
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -168,7 +256,9 @@ class _LoginState extends State<Login> {
                       ),
                       Center(
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _loginWithGoogle();
+                            },
                             icon: const Image(
                               image: AssetImage("images/google.png"),
                             )),
@@ -214,5 +304,46 @@ String verifyContent(String e) {
     default:
       break;
   }
+  return message;
+}
+
+String verifyGoogleContent(String e) {
+  String message = "Algo deu errado ao tentar fazer login";
+  switch (e) {
+    case "account-exists-with-different-credential":
+      message = "Essa conta existe, porém com credenciais diferentes";
+      break;
+
+    case "invalid-credentiald":
+      message = "Credenciais inválidas";
+      break;
+
+    case "operation-not-allowed":
+      message = "A conta com as credenciais informadas não está ativa";
+      break;
+
+    case "user-disabled":
+      message = "Usuário desativado";
+      break;
+
+    case "user-not-found":
+      message = "Não existe usuário para o email informado";
+      break;
+
+    case "wrong-password":
+      message = "Senha incorreta";
+      break;
+
+    case "invalid-verification-code":
+      message = "Código de verificação inválido";
+      break;
+
+    case "invalid-verification-id":
+      message = "ID de verificação inválido";
+      break;
+    default:
+      break;
+  }
+
   return message;
 }
