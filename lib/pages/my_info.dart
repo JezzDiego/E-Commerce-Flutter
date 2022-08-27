@@ -41,7 +41,11 @@ class _MyInfoState extends State<MyInfo> {
                           ),
                         ),
                         const SizedBox(height: 40),
-                        buildInfo("Nome Completo", user.displayName!),
+                        buildInfo(
+                            "Nome Completo",
+                            user.displayName != null
+                                ? "${user.displayName}"
+                                : "Não cadastrado"),
                         const SizedBox(height: 40),
                         buildInfo("Email", user.email!),
                         const SizedBox(height: 40),

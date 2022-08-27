@@ -38,7 +38,8 @@ class _MyAccountState extends State<MyAccount> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: NetworkImage(user.photoURL!),
+                          image: NetworkImage(user.photoURL ??
+                              "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"),
                           fit: BoxFit.fill),
                     ))),
             Column(
@@ -47,9 +48,11 @@ class _MyAccountState extends State<MyAccount> {
                   height: 12,
                 ),
                 Text(
-                    user.displayName!.split(" ")[0] +
-                        " " +
-                        user.displayName!.split(" ")[1],
+                    user.displayName != null
+                        ? user.displayName!.split(" ")[0] +
+                            " " +
+                            user.displayName!.split(" ")[1]
+                        : user.email!,
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold)),
               ],
