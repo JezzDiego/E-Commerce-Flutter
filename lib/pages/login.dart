@@ -255,13 +255,17 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                       Center(
-                        child: IconButton(
-                            onPressed: () {
-                              _loginWithGoogle();
-                            },
-                            icon: const Image(
-                              image: AssetImage("images/google.png"),
-                            )),
+                        child: SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: IconButton(
+                              onPressed: () {
+                                _loginWithGoogle();
+                              },
+                              icon: const Image(
+                                image: AssetImage("images/google.png"),
+                              )),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Row(
