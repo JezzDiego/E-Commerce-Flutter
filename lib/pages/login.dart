@@ -1,11 +1,9 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:araplantas_mobile/pages/sign_up.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
