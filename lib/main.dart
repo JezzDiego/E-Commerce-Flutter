@@ -1,32 +1,29 @@
+import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/pages/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-  runApp(HomePage());
+  runApp(const HomePage());
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-
-  final _initialization = Firebase.initializeApp();
-
+  const HomePage({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initialization,
-        builder: (context, snapshot) {
-          return MaterialApp(
-            title: 'inicial',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.grey,
-            ),
-            home: const Login(),
-          );
-        });
-  }
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'inicial',
+          theme: ThemeData(
+            primarySwatch: Colors.grey,
+          ),
+          home: const Login(),
+        ),
+      );
 }

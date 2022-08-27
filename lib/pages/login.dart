@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -260,7 +262,10 @@ class _LoginState extends State<Login> {
                           height: 60,
                           child: IconButton(
                               onPressed: () {
-                                _loginWithGoogle();
+                                final provider =
+                                    Provider.of<GoogleSignInProvider>(context,
+                                        listen: false);
+                                provider.googleLogin();
                               },
                               icon: const Image(
                                 image: AssetImage("images/google.png"),
