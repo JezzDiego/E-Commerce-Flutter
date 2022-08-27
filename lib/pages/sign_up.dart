@@ -32,8 +32,8 @@ class _SignUpState extends State<SignUp> {
 
       await FirebaseFirestore.instance.collection('users').add({
         'email': emailController.text,
-        'name': nameController.text,
-        'cel': numberController.text,
+        'displayName': nameController.text,
+        'phoneNumber': numberController.text,
       });
 
       await showDialog(

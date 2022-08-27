@@ -1,8 +1,9 @@
-import 'package:araplantas_mobile/pages/login.dart';
+import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,29 +30,30 @@ class _MyAccountState extends State<MyAccount> {
         body: ListView(
           children: [
             const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Center(
+                child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(user.photoURL ??
+                              "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"),
+                          fit: BoxFit.fill),
+                    ))),
+            Column(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSebLzQHeNYV0TVtz49fMdUANYfv1tcX9off2lbzaUFhqGAk-6zjQr6xhdyEnAY343KW2Y&usqp=CAU")),
-                  ),
+                const SizedBox(
+                  height: 12,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: const [
-                      Text('Luana Silva', style: TextStyle(fontSize: 25)),
-                      Text('9 9123-4567'),
-                    ],
-                  ),
-                ),
+                Text(
+                    user.displayName != null
+                        ? user.displayName!.split(" ")[0] +
+                            " " +
+                            user.displayName!.split(" ")[1]
+                        : user.email!,
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
             Column(
@@ -120,12 +124,9 @@ class _MyAccountState extends State<MyAccount> {
           style: TextButton.styleFrom(
               primary: Colors.black, backgroundColor: Colors.white),
           onPressed: () {
-            FirebaseAuth.instance.signOut().then((value) => {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: ((context) {
-                    return const Login();
-                  })))
-                });
+            final provider =
+                Provider.of<GoogleSignInProvider>(context, listen: false);
+            provider.logout();
           },
           child: Padding(
             padding: const EdgeInsets.all(10),

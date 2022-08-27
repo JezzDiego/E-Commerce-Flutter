@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyInfo extends StatefulWidget {
@@ -8,6 +9,8 @@ class MyInfo extends StatefulWidget {
 }
 
 class _MyInfoState extends State<MyInfo> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +41,19 @@ class _MyInfoState extends State<MyInfo> {
                           ),
                         ),
                         const SizedBox(height: 40),
-                        buildInfo("Nome Completo", "Luana Silva"),
+                        buildInfo(
+                            "Nome Completo",
+                            user.displayName != null
+                                ? "${user.displayName}"
+                                : "Não cadastrado"),
                         const SizedBox(height: 40),
-                        buildInfo("Email", "luana.silva@email.com"),
+                        buildInfo("Email", user.email!),
                         const SizedBox(height: 40),
-                        buildInfo("Celular", "9 9123-4567"),
+                        buildInfo(
+                            "Celular",
+                            user.phoneNumber != null
+                                ? "${user.phoneNumber}"
+                                : "Não cadastrado"),
                         const SizedBox(height: 40),
                         const Text(
                           "Endereço",
