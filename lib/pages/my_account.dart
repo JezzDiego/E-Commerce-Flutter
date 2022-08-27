@@ -32,7 +32,7 @@ class _MyAccountState extends State<MyAccount> {
           children: [
             const SizedBox(height: 30),
             CircleAvatar(
-                radius: 40, backgroundImage: NetworkImage(user.photoURL!)),
+                radius: 50, backgroundImage: NetworkImage(user.photoURL!)),
             Column(
               children: [
                 const SizedBox(
@@ -42,7 +42,8 @@ class _MyAccountState extends State<MyAccount> {
                     user.displayName!.split(" ")[0] +
                         " " +
                         user.displayName!.split(" ")[1],
-                    style: const TextStyle(fontSize: 24)),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
             Column(
