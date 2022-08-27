@@ -1,5 +1,4 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
-import 'package:araplantas_mobile/pages/login.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
