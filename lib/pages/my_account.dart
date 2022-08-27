@@ -31,8 +31,16 @@ class _MyAccountState extends State<MyAccount> {
         body: ListView(
           children: [
             const SizedBox(height: 30),
-            CircleAvatar(
-                radius: 50, backgroundImage: NetworkImage(user.photoURL!)),
+            Center(
+                child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(user.photoURL!),
+                          fit: BoxFit.fill),
+                    ))),
             Column(
               children: [
                 const SizedBox(
