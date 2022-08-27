@@ -256,8 +256,8 @@ class _LoginState extends State<Login> {
                       ),
                       Center(
                         child: SizedBox(
-                          width: 70,
-                          height: 70,
+                          width: 60,
+                          height: 60,
                           child: IconButton(
                               onPressed: () {
                                 _loginWithGoogle();
