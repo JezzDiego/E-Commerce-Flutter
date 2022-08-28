@@ -1,5 +1,3 @@
-import 'package:araplantas_mobile/pages/product_details.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/home_items_card.dart';
 import '../components/item.dart';
