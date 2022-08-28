@@ -71,26 +71,8 @@ class _HomePage extends State<MyHomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) {
-                      return ProductDetails(
-                        item: item1,
-                      );
-                    })));
-                  },
-                  child: HomeItemCard(item: item1)),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) {
-                      return ProductDetails(
-                        item: item2,
-                      );
-                    })));
-                  },
-                  child: HomeItemCard(item: item2)),
+              HomeItemCard(item: item1),
+              HomeItemCard(item: item2),
             ],
           ),
         ),

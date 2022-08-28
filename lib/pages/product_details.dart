@@ -1,11 +1,6 @@
 import 'package:araplantas_mobile/components/item.dart';
-import 'package:araplantas_mobile/pages/saved_items.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'carrinho.dart';
-import 'home.dart';
-import 'my_account.dart';
 
 class ProductDetails extends StatefulWidget {
   final Item item;
@@ -47,11 +42,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       style: GoogleFonts.inter(
                           fontSize: 32, fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 const Divider(),
                 Row(
                   children: [
-                    const SizedBox(height: 85),
+                    const SizedBox(height: 90),
                     Expanded(
                         child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -69,11 +64,11 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          height: 280,
+          height: 250,
           decoration:
               const BoxDecoration(color: Color.fromARGB(255, 250, 250, 250)),
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, left: 38, right: 38),
+            padding: const EdgeInsets.only(top: 15, left: 38, right: 38),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,14 +77,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   style: const TextStyle(
                       fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 36),
+                const SizedBox(height: 25),
                 Text(
-                  "Adicione agora ao seu carrinho, não perca essa chance",
+                  "Adicione agora ao seu carrinho ou salve este item para não perdê-lo de vista",
                   style: GoogleFonts.inter(
                       fontSize: 18, fontWeight: FontWeight.w200),
                 ),
                 const SizedBox(
-                  height: 36,
+                  height: 25,
                 ),
                 Center(
                   child: GestureDetector(

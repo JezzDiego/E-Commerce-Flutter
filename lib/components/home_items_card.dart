@@ -1,53 +1,56 @@
 import 'package:flutter/material.dart';
+import '../pages/product_details.dart';
 import 'item.dart';
 
-class HomeItemCard extends StatefulWidget{
+class HomeItemCard extends StatefulWidget {
   final Item item;
 
-  const HomeItemCard({Key? key, required this.item}): super(key:key);
+  const HomeItemCard({Key? key, required this.item}) : super(key: key);
 
   @override
   _HomeItemCardState createState() => _HomeItemCardState();
-
 }
 
-class _HomeItemCardState extends State<HomeItemCard>{
+class _HomeItemCardState extends State<HomeItemCard> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    height: 180,
-                    width: 180,
-                    child: Image.network(
-                      widget.item.imgUrl,
-                      width: 120,
-                      height: 130,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'R\$${widget.item.price}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                      widget.item.name,
-                    style: const TextStyle(
-                      color: Colors.grey
-                    ),
-                  )
-                ],
+    return Container(
+      decoration: const BoxDecoration(color: Colors.white),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: ((context) {
+            return ProductDetails(
+              item: widget.item,
+            );
+          })));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 180,
+              width: 180,
+              child: Image.network(
+                widget.item.imgUrl,
+                width: 120,
+                height: 130,
               ),
+            ),
+            Text(
+              widget.item.name,
+              style: const TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'R\$${widget.item.price}',
+              style: const TextStyle(color: Colors.black, fontSize: 20),
+            ),
+          ],
+        ),
+      ),
     );
   }
-
 }
