@@ -51,9 +51,9 @@ class _MyInfoState extends State<MyInfo> {
                         const SizedBox(height: 40),
                         buildInfo(
                             "Celular",
-                            user.phoneNumber != null
-                                ? "${user.phoneNumber}"
-                                : "Não cadastrado"),
+                            user.phoneNumber == null
+                                ? "Não cadastrado"
+                                : "${user.phoneNumber}"),
                         const SizedBox(height: 40),
                         const Text(
                           "Endereço",
