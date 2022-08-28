@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/pages/product_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/home_items_card.dart';
@@ -12,17 +13,19 @@ class MyHomePage extends StatefulWidget {
 
 class _HomePage extends State<MyHomePage> {
   Item item1 = Item(
-    name: 'Teclado',
-    price: 629.80,
-    imgUrl:
-        'https://http2.mlstatic.com/D_NQ_NP_755864-MLB31865914502_082019-O.jpg',
-  );
+      name: 'Teclado',
+      price: 629.80,
+      imgUrl:
+          'https://http2.mlstatic.com/D_NQ_NP_755864-MLB31865914502_082019-O.jpg',
+      description:
+          'Um teclado muito bonito com várias coisas comuns em um teclado');
   Item item2 = Item(
-    name: 'Notebook',
-    price: 2599.90,
-    imgUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
-  );
+      name: 'Notebook',
+      price: 2599.90,
+      imgUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
+      description:
+          'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +71,26 @@ class _HomePage extends State<MyHomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              HomeItemCard(item: item1),
-              HomeItemCard(item: item2),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return ProductDetails(
+                        item: item1,
+                      );
+                    })));
+                  },
+                  child: HomeItemCard(item: item1)),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return ProductDetails(
+                        item: item2,
+                      );
+                    })));
+                  },
+                  child: HomeItemCard(item: item2)),
             ],
           ),
         ),
