@@ -13,14 +13,14 @@ class SavedItems extends StatefulWidget {
 class _SavedItemsState extends State<SavedItems> {
   Item item1 = Item(
       name: 'Notebook gamer',
-      price: 2599,
+      price: 2599.99,
       imgUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
       description:
           'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
   Item item2 = Item(
       name: 'Cacto',
-      price: 3.00,
+      price: 4.99,
       imgUrl:
           'https://i.pinimg.com/originals/d5/fc/38/d5fc38248b3dc4f3c614bbecfc3605c9.jpg',
       description: 'É... Apenas um cacto mesmo');
@@ -34,7 +34,10 @@ class _SavedItemsState extends State<SavedItems> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Itens Salvos'),
+          title: Text(
+            'Itens Salvos',
+            style: GoogleFonts.inter(),
+          ),
           centerTitle: false,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -55,12 +58,12 @@ class _SavedItemsState extends State<SavedItems> {
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xFFE0E0E0),
             ),
-            child: const TextField(
+            child: TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: "pesquisar",
+                prefixIcon: const Icon(Icons.search),
+                hintText: "Pesquisar",
                 border: InputBorder.none,
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.inter(
                   fontSize: 20,
                   color: Colors.grey,
                 ),

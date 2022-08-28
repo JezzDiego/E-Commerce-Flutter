@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../components/home_items_card.dart';
 import '../components/item.dart';
 
@@ -12,14 +13,14 @@ class MyHomePage extends StatefulWidget {
 class _HomePage extends State<MyHomePage> {
   Item item1 = Item(
       name: 'Teclado',
-      price: 629.80,
+      price: 629.89,
       imgUrl:
           'https://http2.mlstatic.com/D_NQ_NP_755864-MLB31865914502_082019-O.jpg',
       description:
           'Um teclado muito bonito com várias coisas comuns em um teclado');
   Item item2 = Item(
       name: 'Notebook',
-      price: 2599.90,
+      price: 2599.99,
       imgUrl:
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
       description:
@@ -32,7 +33,10 @@ class _HomePage extends State<MyHomePage> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Produtos'),
+          title: Text(
+            'Produtos',
+            style: GoogleFonts.inter(),
+          ),
           centerTitle: true,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -52,12 +56,12 @@ class _HomePage extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(10),
             color: const Color(0xFFE0E0E0),
           ),
-          child: const TextField(
+          child: TextField(
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: const Icon(Icons.search),
               hintText: "Pesquisar",
               border: InputBorder.none,
-              hintStyle: TextStyle(
+              hintStyle: GoogleFonts.inter(
                 fontSize: 20,
                 color: Colors.grey,
               ),

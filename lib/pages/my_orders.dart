@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class _MyOrdersState extends State<MyOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Meus Pedidos"),
+        title: Text("Meus Pedidos", style: GoogleFonts.inter()),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
@@ -25,12 +26,12 @@ class _MyOrdersState extends State<MyOrders> {
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xFFE0E0E0),
             ),
-            child: const TextField(
+            child: TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 hintText: "Pesquisar",
                 border: InputBorder.none,
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.inter(
                   fontSize: 20,
                   color: Colors.grey,
                 ),
@@ -43,14 +44,14 @@ class _MyOrdersState extends State<MyOrders> {
               children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         "25 de Dezembro",
-                        style: TextStyle(fontSize: 20),
+                        style: GoogleFonts.inter(fontSize: 20),
                       ),
                       Text(
                         "R\$ 450.00",
-                        style: TextStyle(fontSize: 20),
+                        style: GoogleFonts.inter(fontSize: 20),
                       )
                     ]),
                 Padding(
@@ -60,12 +61,13 @@ class _MyOrdersState extends State<MyOrders> {
                     children: [
                       Text(
                         "Entregue",
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                             fontSize: 16, color: Colors.greenAccent[700]),
                       ),
-                      const Text(
+                      Text(
                         "#14124",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        style:
+                            GoogleFonts.inter(color: Colors.grey, fontSize: 16),
                       )
                     ],
                   ),

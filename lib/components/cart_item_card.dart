@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'item.dart';
 
-class SavedItemCard extends StatefulWidget {
+class CartItem extends StatefulWidget {
   final Item item;
-
-  const SavedItemCard({Key? key, required this.item}) : super(key: key);
+  const CartItem({Key? key, required this.item}) : super(key: key);
 
   @override
-  _SavedItemCardState createState() => _SavedItemCardState();
+  _CartItemState createState() => _CartItemState();
 }
 
-class _SavedItemCardState extends State<SavedItemCard> {
+class _CartItemState extends State<CartItem> {
+  int counter = 1;
+  Color textColor = Colors.grey;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -49,32 +50,34 @@ class _SavedItemCardState extends State<SavedItemCard> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: 180,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xFFFEE440),
-                          shadowColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          textStyle: GoogleFonts.inter(
-                            fontSize: 17,
+                    const SizedBox(height: 42),
+                    Container(
+                      width: 125,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                          color: Color(0XFFF5F5F5),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                decrementCounter();
+                              },
+                              icon: Icon(Icons.remove, color: textColor)),
+                          Text(
+                            "$counter",
+                            style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
-                        child: Text(
-                          'Mover para o carrinho',
-                          style: GoogleFonts.inter(color: Colors.black),
-                        ),
+                          IconButton(
+                              onPressed: () {
+                                incrementCounter();
+                              },
+                              icon: const Icon(Icons.add))
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    )
                   ],
                 ),
               ],
@@ -115,5 +118,26 @@ class _SavedItemCardState extends State<SavedItemCard> {
         )),
       ],
     );
+  }
+
+  incrementCounter() {
+    setState(() {
+      counter++;
+      textColor = Colors.black;
+    });
+  }
+
+  decrementCounter() {
+    if (counter > 1) {
+      setState(() {
+        counter--;
+      });
+    }
+
+    if (counter == 1) {
+      setState(() {
+        textColor = Colors.grey;
+      });
+    }
   }
 }

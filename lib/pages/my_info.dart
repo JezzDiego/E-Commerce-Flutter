@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyInfo extends StatefulWidget {
   const MyInfo({Key? key}) : super(key: key);
@@ -15,7 +16,10 @@ class _MyInfoState extends State<MyInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Minhas Informações"),
+        title: Text(
+          "Minhas Informações",
+          style: GoogleFonts.inter(),
+        ),
         centerTitle: false,
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
@@ -33,9 +37,9 @@ class _MyInfoState extends State<MyInfo> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "Pessoais",
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                           ),
@@ -51,13 +55,13 @@ class _MyInfoState extends State<MyInfo> {
                         const SizedBox(height: 40),
                         buildInfo(
                             "Celular",
-                            user.phoneNumber != null
-                                ? "${user.phoneNumber}"
-                                : "Não cadastrado"),
+                            user.phoneNumber == null
+                                ? "Não cadastrado"
+                                : "${user.phoneNumber}"),
                         const SizedBox(height: 40),
-                        const Text(
+                        Text(
                           "Endereço",
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                           ),
@@ -100,14 +104,14 @@ buildInfo(String campo, String info) {
         children: [
           Text(
             campo,
-            style: const TextStyle(
+            style: GoogleFonts.inter(
               color: Colors.grey,
               fontSize: 15,
             ),
           ),
           Text(
             info,
-            style: const TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 22,
             ),
           ),
