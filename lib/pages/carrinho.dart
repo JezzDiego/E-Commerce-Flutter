@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/components/cart_item_card.dart';
 import 'package:flutter/material.dart';
 import '../components/item.dart';
 import '../components/saved_item_card.dart';
@@ -59,8 +60,8 @@ class _CarrinhoState extends State<Carrinho> {
             ),
           ),
         ),
-        SavedItemCard(item: item1),
-        SavedItemCard(item: item2),
+        CartItem(item: item1),
+        CartItem(item: item2),
       ],
     );
   }
