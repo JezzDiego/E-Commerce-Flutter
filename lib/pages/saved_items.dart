@@ -34,7 +34,10 @@ class _SavedItemsState extends State<SavedItems> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Itens Salvos'),
+          title: Text(
+            'Itens Salvos',
+            style: GoogleFonts.inter(),
+          ),
           centerTitle: false,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -55,12 +58,12 @@ class _SavedItemsState extends State<SavedItems> {
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xFFE0E0E0),
             ),
-            child: const TextField(
+            child: TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: "pesquisar",
+                prefixIcon: const Icon(Icons.search),
+                hintText: "Pesquisar",
                 border: InputBorder.none,
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.inter(
                   fontSize: 20,
                   color: Colors.grey,
                 ),

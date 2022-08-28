@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'item.dart';
 
 class CartItem extends StatefulWidget {
@@ -33,7 +34,7 @@ class _CartItemState extends State<CartItem> {
                       children: [
                         Text(
                           'R\$${widget.item.price}',
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 25,
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
@@ -42,7 +43,7 @@ class _CartItemState extends State<CartItem> {
                         const SizedBox(height: 5),
                         Text(
                           widget.item.name,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.w200,
                           ),
@@ -66,7 +67,7 @@ class _CartItemState extends State<CartItem> {
                               icon: Icon(Icons.remove, color: textColor)),
                           Text(
                             "$counter",
-                            style: const TextStyle(
+                            style: GoogleFonts.inter(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../components/home_items_card.dart';
 import '../components/item.dart';
 
@@ -32,7 +33,10 @@ class _HomePage extends State<MyHomePage> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Produtos'),
+          title: Text(
+            'Produtos',
+            style: GoogleFonts.inter(),
+          ),
           centerTitle: true,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -52,12 +56,12 @@ class _HomePage extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(10),
             color: const Color(0xFFE0E0E0),
           ),
-          child: const TextField(
+          child: TextField(
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: const Icon(Icons.search),
               hintText: "Pesquisar",
               border: InputBorder.none,
-              hintStyle: TextStyle(
+              hintStyle: GoogleFonts.inter(
                 fontSize: 20,
                 color: Colors.grey,
               ),

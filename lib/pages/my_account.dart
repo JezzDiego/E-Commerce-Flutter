@@ -3,6 +3,7 @@ import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MyAccount extends StatefulWidget {
@@ -22,7 +23,10 @@ class _MyAccountState extends State<MyAccount> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Minha Conta'),
+          title: Text(
+            'Minha Conta',
+            style: GoogleFonts.inter(),
+          ),
           centerTitle: false,
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
@@ -52,7 +56,7 @@ class _MyAccountState extends State<MyAccount> {
                             " " +
                             user.displayName!.split(" ")[1]
                         : user.email!,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                         fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
@@ -76,13 +80,14 @@ class _MyAccountState extends State<MyAccount> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Row(
-                          children: const [
-                            Icon(Icons.shopping_bag_outlined),
+                          children: [
+                            const Icon(Icons.shopping_bag_outlined),
                             Padding(
-                              padding: EdgeInsetsDirectional.only(start: 20),
+                              padding:
+                                  const EdgeInsetsDirectional.only(start: 20),
                               child: Text(
                                 'Meus Pedidos',
-                                style: TextStyle(fontSize: 20),
+                                style: GoogleFonts.inter(fontSize: 20),
                               ),
                             ),
                           ],
@@ -105,13 +110,13 @@ class _MyAccountState extends State<MyAccount> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
-                  children: const [
-                    Icon(Icons.person_outline),
+                  children: [
+                    const Icon(Icons.person_outline),
                     Padding(
-                      padding: EdgeInsetsDirectional.only(start: 20),
+                      padding: const EdgeInsetsDirectional.only(start: 20),
                       child: Text(
                         'Minhas Informações',
-                        style: TextStyle(fontSize: 20),
+                        style: GoogleFonts.inter(fontSize: 20),
                       ),
                     ),
                   ],
@@ -131,13 +136,13 @@ class _MyAccountState extends State<MyAccount> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
-              children: const [
-                Icon(Icons.exit_to_app_outlined),
+              children: [
+                const Icon(Icons.exit_to_app_outlined),
                 Padding(
-                  padding: EdgeInsetsDirectional.only(start: 20),
+                  padding: const EdgeInsetsDirectional.only(start: 20),
                   child: Text(
                     'Sair',
-                    style: TextStyle(fontSize: 20),
+                    style: GoogleFonts.inter(fontSize: 20),
                   ),
                 ),
               ],

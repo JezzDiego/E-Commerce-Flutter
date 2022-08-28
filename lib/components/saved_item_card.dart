@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'item.dart';
 
 class SavedItemCard extends StatefulWidget {
@@ -32,7 +33,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
                       children: [
                         Text(
                           'R\$${widget.item.price}',
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 25,
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
@@ -41,7 +42,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
                         const SizedBox(height: 5),
                         Text(
                           widget.item.name,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.w200,
                           ),
@@ -58,16 +59,16 @@ class _SavedItemCardState extends State<SavedItemCard> {
                           shadowColor: Colors.transparent,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
-                          textStyle: const TextStyle(
+                          textStyle: GoogleFonts.inter(
                             fontSize: 17,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Mover para o carrinho',
-                          style: TextStyle(color: Colors.black),
+                          style: GoogleFonts.inter(color: Colors.black),
                         ),
                       ),
                     ),

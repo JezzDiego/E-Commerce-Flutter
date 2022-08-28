@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/product_details.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'item.dart';
 
 class HomeItemCard extends StatefulWidget {
@@ -38,7 +39,7 @@ class _HomeItemCardState extends State<HomeItemCard> {
             ),
             Text(
               widget.item.name,
-              style: const TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: 24,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -46,7 +47,7 @@ class _HomeItemCardState extends State<HomeItemCard> {
             ),
             Text(
               'R\$${widget.item.price}',
-              style: const TextStyle(color: Colors.black, fontSize: 20),
+              style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
             ),
           ],
         ),
