@@ -146,6 +146,7 @@ class _MyInfoState extends State<MyInfo> {
           FirebaseFirestore.instance.collection('adresses').doc(user.uid);
 
       final adress = Adress(
+          id: docAdress.id,
           zipCode: zipCode,
           street: street,
           district: district,
