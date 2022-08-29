@@ -234,7 +234,7 @@ class _SignUpState extends State<SignUp> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Já tem uma contra? "),
+                          const Text("Já tem uma conta? "),
                           TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(context,
