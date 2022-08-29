@@ -73,6 +73,7 @@ class _MyInfoState extends State<MyInfo> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      /*
                       const SizedBox(height: 40),
                       buildTextFieldInfo(
                           "CEP", TextInputType.number, zipCodeContrller),
@@ -85,7 +86,22 @@ class _MyInfoState extends State<MyInfo> {
                       const SizedBox(height: 40),
                       buildTextFieldInfo("Número da Casa", TextInputType.number,
                           houseNumberContrller),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 40),*/
+                      FutureBuilder<Adress?>(
+                          future: readAdress(),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text("Algo deu errado");
+                            } else if (snapshot.hasData) {
+                              final adress = snapshot.data;
+                              return adress == null
+                                  ? buildInfo("Rua", "Não cadastrado")
+                                  : buildAdress(adress);
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          })),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -133,6 +149,33 @@ class _MyInfoState extends State<MyInfo> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<Adress?> readAdress() async {
+    final docAdress =
+        FirebaseFirestore.instance.collection('adresses').doc(user.uid);
+
+    final snapshot = await docAdress.get();
+
+    if (snapshot.exists) {
+      return Adress.fromJson(snapshot.data()!);
+    }
+  }
+
+  Widget buildAdress(Adress endereco) {
+    return Column(
+      children: [
+        const SizedBox(height: 40),
+        buildInfo("CEP", endereco.zipCode),
+        const SizedBox(height: 40),
+        buildInfo("Rua", endereco.street),
+        const SizedBox(height: 40),
+        buildInfo("Bairro", endereco.district),
+        const SizedBox(height: 40),
+        buildInfo("Número da casa", endereco.houseNumber),
+        const SizedBox(height: 40),
+      ],
     );
   }
 
