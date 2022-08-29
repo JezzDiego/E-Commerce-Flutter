@@ -1,3 +1,5 @@
+import 'package:araplantas_mobile/components/adress.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +17,8 @@ class _MyInfoState extends State<MyInfo> {
   final streetController = TextEditingController();
   final districtContrller = TextEditingController();
   final houseNumberContrller = TextEditingController();
+
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,30 +89,40 @@ class _MyInfoState extends State<MyInfo> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 60,
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        const Color(0xFFFEE440)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                )),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                "Salvar dados",
-                                style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
+                          loading
+                              ? const CircularProgressIndicator()
+                              : SizedBox(
+                                  height: 60,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xFFFEE440)),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      )),
+                                    ),
+                                    onPressed: () {
+                                      createAdress(
+                                          zipCodeContrller.text,
+                                          streetController.text,
+                                          districtContrller.text,
+                                          houseNumberContrller.text);
+                                    },
+                                    child: Text(
+                                      "Salvar dados",
+                                      style: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ],
@@ -117,6 +131,73 @@ class _MyInfoState extends State<MyInfo> {
               )
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Future createAdress(String zipCode, String street, String district,
+      String houseNumber) async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      final docAdress =
+          FirebaseFirestore.instance.collection('adresses').doc(user.uid);
+
+      final adress = Adress(
+          zipCode: zipCode,
+          street: street,
+          district: district,
+          houseNumber: houseNumber);
+      await docAdress.set(adress.toJson());
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(e.toString()),
+          content: const Text("Dados atualizados com sucesso"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(e.toString()),
+          content: const Text("Dados atualizados com sucesso"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text("Sucesso"),
+        content: const Text("Dados atualizados com sucesso"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("OK"))
         ],
       ),
     );
