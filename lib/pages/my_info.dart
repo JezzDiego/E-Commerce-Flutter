@@ -11,6 +11,10 @@ class MyInfo extends StatefulWidget {
 
 class _MyInfoState extends State<MyInfo> {
   final user = FirebaseAuth.instance.currentUser!;
+  final zipCodeContrller = TextEditingController();
+  final streetController = TextEditingController();
+  final districtContrller = TextEditingController();
+  final houseNumberContrller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +70,47 @@ class _MyInfoState extends State<MyInfo> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      buildTextFieldInfo("CEP"),
+                      buildTextFieldInfo(
+                          "CEP", TextInputType.number, zipCodeContrller),
                       const SizedBox(height: 40),
-                      buildTextFieldInfo("Rua"),
+                      buildTextFieldInfo(
+                          "Rua", TextInputType.text, streetController),
                       const SizedBox(height: 40),
-                      buildTextFieldInfo("Bairro"),
+                      buildTextFieldInfo(
+                          "Bairro", TextInputType.text, districtContrller),
                       const SizedBox(height: 40),
-                      buildTextFieldInfo("Número da Casa"),
+                      buildTextFieldInfo("Número da Casa", TextInputType.number,
+                          houseNumberContrller),
                       const SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFFFEE440)),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                )),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "Salvar dados",
+                                style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -85,7 +122,8 @@ class _MyInfoState extends State<MyInfo> {
     );
   }
 
-  buildTextFieldInfo(String campo) {
+  buildTextFieldInfo(String campo, TextInputType textInputType,
+      TextEditingController controller) {
     return Container(
       width: 900,
       decoration: BoxDecoration(
@@ -105,6 +143,8 @@ class _MyInfoState extends State<MyInfo> {
               ),
             ),
             TextField(
+              controller: controller,
+              keyboardType: textInputType,
               style: GoogleFonts.inter(
                 fontSize: 22,
               ),
