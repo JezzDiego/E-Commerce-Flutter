@@ -244,7 +244,10 @@ class _SignUpState extends State<SignUp> {
                                   },
                                 ));
                               },
-                              child: const Text("Login"))
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(color: Colors.blue),
+                              ))
                         ],
                       )
                     ],

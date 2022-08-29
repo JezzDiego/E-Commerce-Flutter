@@ -198,7 +198,12 @@ class _LoginState extends State<Login> {
                                   },
                                 ));
                               },
-                              child: const Text("Cadastre-se"))
+                              child: const Text(
+                                "Cadastre-se",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                ),
+                              ))
                         ],
                       )
                     ],
