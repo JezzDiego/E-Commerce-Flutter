@@ -18,6 +18,7 @@ class _MyInfoState extends State<MyInfo> {
   final districtContrller = TextEditingController();
   final houseNumberContrller = TextEditingController();
 
+  bool editAddress = false;
   bool loading = false;
 
   @override
@@ -73,72 +74,103 @@ class _MyInfoState extends State<MyInfo> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      /*
-                      const SizedBox(height: 40),
-                      buildTextFieldInfo(
-                          "CEP", TextInputType.number, zipCodeContrller),
-                      const SizedBox(height: 40),
-                      buildTextFieldInfo(
-                          "Rua", TextInputType.text, streetController),
-                      const SizedBox(height: 40),
-                      buildTextFieldInfo(
-                          "Bairro", TextInputType.text, districtContrller),
-                      const SizedBox(height: 40),
-                      buildTextFieldInfo("Número da Casa", TextInputType.number,
-                          houseNumberContrller),
-                      const SizedBox(height: 40),*/
-                      FutureBuilder<Adress?>(
-                          future: readAdress(),
-                          builder: ((context, snapshot) {
-                            if (snapshot.hasError) {
-                              return const Text("Algo deu errado");
-                            } else if (snapshot.hasData) {
-                              final adress = snapshot.data;
-                              return adress == null
-                                  ? buildInfo("Rua", "Não cadastrado")
-                                  : buildAdress(adress);
-                            } else {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-                          })),
+                      if (editAddress == true) ...[
+                        const SizedBox(height: 40),
+                        buildTextFieldInfo(
+                            "CEP", TextInputType.number, zipCodeContrller),
+                        const SizedBox(height: 40),
+                        buildTextFieldInfo(
+                            "Rua", TextInputType.text, streetController),
+                        const SizedBox(height: 40),
+                        buildTextFieldInfo(
+                            "Bairro", TextInputType.text, districtContrller),
+                        const SizedBox(height: 40),
+                        buildTextFieldInfo("Número da Casa",
+                            TextInputType.number, houseNumberContrller),
+                        const SizedBox(height: 40),
+                      ],
+                      if (editAddress == false) ...[
+                        FutureBuilder<Adress?>(
+                            future: readAdress(),
+                            builder: ((context, snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text("Algo deu errado");
+                              } else if (snapshot.hasData) {
+                                final adress = snapshot.data;
+                                return adress == null
+                                    ? buildInfo("Rua", "Não cadastrado")
+                                    : buildAdress(adress);
+                              } else {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            })),
+                      ],
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          loading
-                              ? const CircularProgressIndicator()
-                              : SizedBox(
-                                  height: 60,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              const Color(0xFFFEE440)),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      )),
-                                    ),
-                                    onPressed: () {
-                                      createAdress(
-                                          zipCodeContrller.text,
-                                          streetController.text,
-                                          districtContrller.text,
-                                          houseNumberContrller.text);
-                                    },
-                                    child: Text(
-                                      "Salvar dados",
-                                      style: GoogleFonts.inter(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
+                          if (loading == false && editAddress == true) ...[
+                            SizedBox(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFFFEE440)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  )),
                                 ),
+                                onPressed: () {
+                                  createAdress(
+                                      zipCodeContrller.text,
+                                      streetController.text,
+                                      districtContrller.text,
+                                      houseNumberContrller.text);
+                                },
+                                child: Text(
+                                  "Salvar dados",
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ],
+                          if (editAddress == false) ...[
+                            SizedBox(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFFFEE440)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  )),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    editAddress = true;
+                                  });
+                                },
+                                child: Text(
+                                  "Editar dados",
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ]
                         ],
                       ),
                     ],
@@ -160,6 +192,13 @@ class _MyInfoState extends State<MyInfo> {
 
     if (snapshot.exists) {
       return Adress.fromJson(snapshot.data()!);
+    } else {
+      return Adress(
+          id: 'erro',
+          zipCode: 'Não cadastrado',
+          street: 'Não cadastrado',
+          district: 'Não cadastrado',
+          houseNumber: 'Não cadastrado');
     }
   }
 
@@ -183,6 +222,7 @@ class _MyInfoState extends State<MyInfo> {
       String houseNumber) async {
     setState(() {
       loading = true;
+      editAddress = false;
     });
     try {
       final docAdress =
