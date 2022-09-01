@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -44,24 +43,24 @@ class _UsersState extends State<Users> {
             GridColumn(
                 columnName: 'name',
                 label: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     alignment: Alignment.centerRight,
-                    child: Text(
+                    child: const Text(
                       'Name',
                     ))),
             GridColumn(
                 columnName: 'email',
                 label: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     alignment: Alignment.centerLeft,
-                    child: Text('Email'))),
+                    child: const Text('Email'))),
             GridColumn(
                 columnName: 'phoneNumber',
                 width: 120,
                 label: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     alignment: Alignment.centerLeft,
-                    child: Text('PhoneNumber'))),
+                    child: const Text('PhoneNumber'))),
           ],
         ),
       ),
@@ -95,7 +94,7 @@ class UserDataSource extends DataGridSource {
                 dataGridCell.columnName == 'name')
             ? Alignment.centerRight
             : Alignment.centerLeft,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Text(dataGridCell.value.toString()),
       );
     }).toList());
