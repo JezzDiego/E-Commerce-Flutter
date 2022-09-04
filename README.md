@@ -1,4 +1,4 @@
-# araplantas_mobile
+# Araplantas Mobile
 
 Araplantas Mobile.
 
@@ -15,4 +15,4 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## [Design](https://www.figma.com/file/UhbMPdySqyHbO4XuR2vOSV/Design-PRMO?node-id=0%3A1)
+## Click [here](https://www.figma.com/file/UhbMPdySqyHbO4XuR2vOSV/Design-PRMO?node-id=0%3A1)  to see the desing of the project
