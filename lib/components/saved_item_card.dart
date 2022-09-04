@@ -55,7 +55,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color(0xFFFEE440),
+                          primary: const Color(0xFFFEE440),
                           shadowColor: Colors.transparent,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
