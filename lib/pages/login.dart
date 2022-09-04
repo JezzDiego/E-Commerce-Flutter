@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 235, 105),
+      backgroundColor: const Color(0xff5ecde0),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
               child: Text(
                 "Login",
                 style: GoogleFonts.inter(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 40,
                   fontWeight: FontWeight.w700,
                 ),
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                               child: const Text("Login",
                                   style: TextStyle(fontSize: 24)),
                               style: TextButton.styleFrom(
-                                primary: Colors.black,
+                                foregroundColor: Colors.black,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 235, 105),
                                 shape: RoundedRectangleBorder(
@@ -201,7 +201,7 @@ class _LoginState extends State<Login> {
                               child: const Text(
                                 "Cadastre-se",
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Color(0xff5ecde0),
                                 ),
                               ))
                         ],

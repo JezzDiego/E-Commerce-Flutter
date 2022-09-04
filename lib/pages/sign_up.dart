@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 235, 105),
+      backgroundColor: const Color(0xff5ecde0),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.82,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                   color: Colors.white),
@@ -217,7 +217,7 @@ class _SignUpState extends State<SignUp> {
                               child: const Text("Cadastrar",
                                   style: TextStyle(fontSize: 24)),
                               style: TextButton.styleFrom(
-                                primary: Colors.black,
+                                foregroundColor: Colors.black,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 235, 105),
                                 shape: RoundedRectangleBorder(
@@ -246,7 +246,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               child: const Text(
                                 "Login",
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(color: Color(0xff5ecde0)),
                               ))
                         ],
                       )
