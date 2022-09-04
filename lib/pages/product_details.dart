@@ -64,7 +64,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          height: 250,
+          height: 165,
           decoration:
               const BoxDecoration(color: Color.fromARGB(255, 250, 250, 250)),
           child: Padding(
@@ -78,14 +78,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 25),
-                Text(
-                  "Adicione agora ao seu carrinho ou salve este item para não perdê-lo de vista",
-                  style: GoogleFonts.inter(
-                      fontSize: 18, fontWeight: FontWeight.w200),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
                 Center(
                   child: GestureDetector(
                       onTap: () {},
