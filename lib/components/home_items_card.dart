@@ -16,7 +16,9 @@ class _HomeItemCardState extends State<HomeItemCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: ((context) {
@@ -25,31 +27,37 @@ class _HomeItemCardState extends State<HomeItemCard> {
             );
           })));
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 180,
-              width: 180,
-              child: Image.network(
-                widget.item.imgUrl,
-                width: 120,
-                height: 130,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey[100]!),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 180,
+                width: 180,
+                child: Image.network(
+                  widget.item.imgUrl,
+                  width: 120,
+                  height: 130,
+                ),
               ),
-            ),
-            Text(
-              widget.item.name,
-              style: GoogleFonts.inter(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+              Text(
+                widget.item.name,
+                style: GoogleFonts.inter(
+                  fontSize: 24,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              'R\$${widget.item.price}',
-              style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-            ),
-          ],
+              Text(
+                'R\$${widget.item.price}',
+                style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );
