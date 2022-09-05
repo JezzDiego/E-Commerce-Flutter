@@ -217,7 +217,7 @@ class _SignUpState extends State<SignUp> {
                               child: const Text("Cadastrar",
                                   style: TextStyle(fontSize: 24)),
                               style: TextButton.styleFrom(
-                                foregroundColor: Colors.black,
+                                primary: Colors.black,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 235, 105),
                                 shape: RoundedRectangleBorder(

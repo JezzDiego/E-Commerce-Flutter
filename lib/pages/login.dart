@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                               child: const Text("Login",
                                   style: TextStyle(fontSize: 24)),
                               style: TextButton.styleFrom(
-                                foregroundColor: Colors.black,
+                                primary: Colors.black,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 235, 105),
                                 shape: RoundedRectangleBorder(
