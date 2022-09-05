@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.722,
+              height: MediaQuery.of(context).size.height * 0.9,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                   color: Colors.white),
