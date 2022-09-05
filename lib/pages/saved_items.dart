@@ -58,7 +58,7 @@ class _SavedItemsState extends State<SavedItems> {
     buildItemsList();
     return Scaffold(
       body: ListView(
-        children: [
+          children: [
           Container(
             margin: const EdgeInsets.fromLTRB(10, 16, 10, 30),
             padding: const EdgeInsets.all(6),
@@ -79,6 +79,8 @@ class _SavedItemsState extends State<SavedItems> {
             ),
           ),
           ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
               return SavedItemCard(item: items[index]);
