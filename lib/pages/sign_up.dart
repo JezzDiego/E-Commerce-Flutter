@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.82,
+              height: MediaQuery.of(context).size.height * 0.9,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                   color: Colors.white),
@@ -120,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       const SizedBox(height: 30),
                       const Text(
-                        "Nome",
+                        "Nome Completo",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
