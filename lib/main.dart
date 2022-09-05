@@ -19,7 +19,6 @@ class HomePage extends StatelessWidget {
         create: (context) => GoogleSignInProvider(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'inicial',
           theme: ThemeData(
             primarySwatch: Colors.grey,
           ),
