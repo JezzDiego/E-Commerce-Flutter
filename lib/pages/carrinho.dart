@@ -1,6 +1,6 @@
 import 'package:araplantas_mobile/components/cart_item_card.dart';
 import 'package:flutter/material.dart';
-import '../components/item.dart';
+import '../models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Carrinho extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:araplantas_mobile/components/item.dart';
+import 'package:araplantas_mobile/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

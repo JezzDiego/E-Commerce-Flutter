@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/product_details.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'item.dart';
+import '../models/item.dart';
 
 class HomeItemCard extends StatefulWidget {
   final Item item;

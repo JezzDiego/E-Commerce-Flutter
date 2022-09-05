@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../components/item.dart';
+import '../models/item.dart';
 import '../components/saved_item_card.dart';
 
 class SavedItems extends StatefulWidget {
