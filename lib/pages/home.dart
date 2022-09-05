@@ -12,23 +12,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<MyHomePage> {
-  Item item1 = Item(
-      id: "01",
-      name: 'Teclado',
-      price: 629.89,
-      imgUrl:
-          'https://http2.mlstatic.com/D_NQ_NP_755864-MLB31865914502_082019-O.jpg',
-      description:
-          'Um teclado muito bonito com várias coisas comuns em um teclado');
-  Item item2 = Item(
-      id: "02",
-      name: 'Notebook',
-      price: 2599.99,
-      imgUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
-      description:
-          'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
