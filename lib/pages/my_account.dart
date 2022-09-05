@@ -98,7 +98,7 @@ class _MyAccountState extends State<MyAccount> {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: Colors.black,
+                primary: Colors.black,
               ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: ((context) {
@@ -125,7 +125,7 @@ class _MyAccountState extends State<MyAccount> {
         ),
         bottomSheet: TextButton(
           style: TextButton.styleFrom(
-              foregroundColor: Colors.black, backgroundColor: Colors.white),
+              primary: Colors.black, backgroundColor: Colors.white),
           onPressed: () {
             final provider =
                 Provider.of<GoogleSignInProvider>(context, listen: false);
