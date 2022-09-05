@@ -65,7 +65,7 @@ class _MyAccountState extends State<MyAccount> {
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.black,
+                    primary: Colors.black,
                   ),
                   onPressed: () {
                     Navigator.push(context,
