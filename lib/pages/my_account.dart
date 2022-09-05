@@ -52,9 +52,7 @@ class _MyAccountState extends State<MyAccount> {
                 ),
                 Text(
                     user.displayName != null
-                        ? user.displayName!.split(" ")[0] +
-                            " " +
-                            user.displayName!.split(" ")[1]
+                        ? user.displayName!.split(" ")[0]
                         : user.email!,
                     style: GoogleFonts.inter(
                         fontSize: 24, fontWeight: FontWeight.bold)),

@@ -12,6 +12,7 @@ class SavedItems extends StatefulWidget {
 
 class _SavedItemsState extends State<SavedItems> {
   Item item1 = Item(
+      id: "05",
       name: 'Notebook gamer',
       price: 2599.99,
       imgUrl:
@@ -19,6 +20,7 @@ class _SavedItemsState extends State<SavedItems> {
       description:
           'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
   Item item2 = Item(
+      id: "06",
       name: 'Cacto',
       price: 4.99,
       imgUrl:

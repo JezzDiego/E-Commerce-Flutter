@@ -12,12 +12,14 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   Item item1 = Item(
+      id: "03",
       name: 'Smartphone',
       price: 1320.99,
       imgUrl: 'https://imgs.casasbahia.com.br/55048200/1g.jpg?imwidth=300',
       description: 'É... Apenas um cacto mesmo');
 
   Item item2 = Item(
+      id: "04",
       name: 'Mochila Muito Top',
       price: 259.99,
       imgUrl: 'https://imgs.casasbahia.com.br/55011914/1xg.jpg?imwidth=300',
