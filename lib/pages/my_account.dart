@@ -1,4 +1,5 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
+import 'package:araplantas_mobile/pages/login.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,7 +130,8 @@ class _MyAccountState extends State<MyAccount> {
           onPressed: () {
             final provider =
                 Provider.of<GoogleSignInProvider>(context, listen: false);
-            provider.logout();
+            provider.logout().then((value) => Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => const Login())));
           },
           child: Padding(
             padding: const EdgeInsets.all(10),
