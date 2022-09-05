@@ -11,23 +11,28 @@ class SavedItems extends StatefulWidget {
 }
 
 class _SavedItemsState extends State<SavedItems> {
-  Item item1 = Item(
-      id: "05",
-      name: 'Notebook gamer',
-      price: 2599.99,
-      imgUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
-      description:
-          'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
-  Item item2 = Item(
-      id: "06",
-      name: 'Cacto',
-      price: 4.99,
-      imgUrl:
-          'https://i.pinimg.com/originals/d5/fc/38/d5fc38248b3dc4f3c614bbecfc3605c9.jpg',
-      description: 'É... Apenas um cacto mesmo');
+  List<Item> items = [];
 
-  var alalItems = [];
+  void buildItemsList() {
+    Item item1 = Item(
+        id: "05",
+        name: 'Notebook gamer',
+        price: 2599.99,
+        imgUrl:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1E4CuI6KFBej4X72_HsctzydSCqxBMGH8I7lqa6lRvSshC1NCtNau6tFcR3-Ka0dB9I&usqp=CAU',
+        description:
+            'Notebook de ultima geração equipado com um processador bom e uma boa placa de vídeo, CONFIA');
+    Item item2 = Item(
+        id: "06",
+        name: 'Cacto',
+        price: 4.99,
+        imgUrl:
+            'https://i.pinimg.com/originals/d5/fc/38/d5fc38248b3dc4f3c614bbecfc3605c9.jpg',
+        description: 'É... Apenas um cacto mesmo');
+
+    items.add(item1);
+    items.add(item2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +55,7 @@ class _SavedItemsState extends State<SavedItems> {
   }
 
   buildBody() {
+    buildItemsList();
     return Scaffold(
       body: ListView(
         children: [
@@ -72,8 +78,12 @@ class _SavedItemsState extends State<SavedItems> {
               ),
             ),
           ),
-          SavedItemCard(item: item1),
-          SavedItemCard(item: item2),
+          ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return SavedItemCard(item: items[index]);
+            },
+          )
         ],
       ),
     );
