@@ -1,16 +1,23 @@
 import 'package:araplantas_mobile/models/item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductDetails extends StatefulWidget {
   final Item item;
-  const ProductDetails({Key? key, required this.item}) : super(key: key);
+  final String itemId;
+  const ProductDetails({Key? key, required this.item, required this.itemId})
+      : super(key: key);
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  final user = FirebaseAuth.instance.currentUser!;
+  Icon currentIcon = const Icon(Icons.favorite_border);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +29,8 @@ class _ProductDetailsState extends State<ProductDetails> {
           foregroundColor: Colors.black,
           backgroundColor: Colors.transparent,
           actions: [
-            IconButton(icon: const Icon(Icons.favorite), onPressed: () => {})
+            IconButton(
+                icon: currentIcon, onPressed: () => {saveItem(widget.itemId)})
           ],
           leading: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -114,5 +122,58 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
     );
+  }
+
+  Future saveItem(String itemId) async {
+    setState(() {
+      currentIcon = const Icon(
+        Icons.favorite,
+        color: Colors.red,
+      );
+    });
+    try {
+      final docItem = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('savedItems');
+
+      final item = Item(
+          id: itemId,
+          name: widget.item.name,
+          price: widget.item.price,
+          imgUrl: widget.item.imgUrl,
+          description: widget.item.description);
+      await docItem.add(item.toJson());
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(e.toString()),
+          content: const Text("Dados atualizados com sucesso"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(e.toString()),
+          content: const Text("Erro ao Salvar"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    }
   }
 }

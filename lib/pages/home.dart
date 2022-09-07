@@ -87,7 +87,7 @@ class _HomePage extends State<MyHomePage> {
     );
   }
 
-  Widget buildItem(Item item) => HomeItemCard(item: item);
+  Widget buildItem(Item item) => HomeItemCard(item: item, itemId: item.id);
 
   Stream<List<Item>> readItems() => FirebaseFirestore.instance
       .collection('items')
