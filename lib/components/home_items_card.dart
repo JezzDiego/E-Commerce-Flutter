@@ -5,8 +5,9 @@ import '../models/item.dart';
 
 class HomeItemCard extends StatefulWidget {
   final Item item;
-
-  const HomeItemCard({Key? key, required this.item}) : super(key: key);
+  final String itemId;
+  const HomeItemCard({Key? key, required this.item, required this.itemId})
+      : super(key: key);
 
   @override
   _HomeItemCardState createState() => _HomeItemCardState();
@@ -24,6 +25,7 @@ class _HomeItemCardState extends State<HomeItemCard> {
           Navigator.push(context, MaterialPageRoute(builder: ((context) {
             return ProductDetails(
               item: widget.item,
+              itemId: widget.itemId,
             );
           })));
         },

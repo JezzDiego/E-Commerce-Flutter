@@ -18,4 +18,12 @@ class Item {
       price: json['price'],
       imgUrl: json['imgUrl'],
       description: json['description']);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'price': price,
+        'imgUrl': imgUrl,
+        'description': description
+      };
 }
