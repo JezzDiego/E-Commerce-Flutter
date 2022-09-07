@@ -17,7 +17,6 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
 
   bool loading = false;
 
@@ -33,7 +32,6 @@ class _SignUpState extends State<SignUp> {
       await FirebaseFirestore.instance.collection('users').add({
         'email': emailController.text,
         'displayName': nameController.text,
-        'phoneNumber': numberController.text,
       });
 
       await showDialog(
@@ -98,7 +96,7 @@ class _SignUpState extends State<SignUp> {
               child: Text(
                 "Sign Up",
                 style: GoogleFonts.inter(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 40,
                   fontWeight: FontWeight.w700,
                 ),
@@ -139,17 +137,6 @@ class _SignUpState extends State<SignUp> {
                         height: 45,
                         child: buildTextFormField(
                             false, emailController, TextInputType.emailAddress),
-                      ),
-                      const SizedBox(height: 30),
-                      const Text(
-                        "Celular",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 45,
-                        child: buildTextFormField(
-                            false, numberController, TextInputType.phone),
                       ),
                       const SizedBox(height: 30),
                       const Text(
