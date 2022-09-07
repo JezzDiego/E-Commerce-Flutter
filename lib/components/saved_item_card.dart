@@ -86,7 +86,14 @@ class _SavedItemCardState extends State<SavedItemCard> {
             IconButton(
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
-              onPressed: () {},
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .collection('savedItems')
+                    .doc(widget.item.id)
+                    .delete();
+              },
             ),
           ],
         ),

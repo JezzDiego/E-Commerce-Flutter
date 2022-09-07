@@ -98,24 +98,6 @@ class _SavedItemsState extends State<SavedItems> {
     );
   }
 
-  /*Future<Item?> readSavedItems() async {
-    final docItem =
-        FirebaseFirestore.instance.collection('users').doc(user.uid).collection('savedItems');
-
-    final snapshot = await docItem.get();
-
-    if (snapshot.) {
-      return Item.fromJson(snapshot.data()!);
-    } else {
-      return Item(
-          id: 'erro',
-          name: 'Não cadastrado',
-          imgUrl: 'Não cadastrado',
-          price: 0,
-          description: 'Não cadastrado');
-    }
-  }*/
-
   Stream<List<Item>> readSavedItems() => FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)

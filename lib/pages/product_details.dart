@@ -135,7 +135,8 @@ class _ProductDetailsState extends State<ProductDetails> {
       final docItem = FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .collection('savedItems');
+          .collection('savedItems')
+          .doc(itemId);
 
       final item = Item(
           id: itemId,
@@ -143,7 +144,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           price: widget.item.price,
           imgUrl: widget.item.imgUrl,
           description: widget.item.description);
-      await docItem.add(item.toJson());
+      await docItem.set(item.toJson());
     } on FirebaseException catch (e) {
       showDialog(
         context: context,
