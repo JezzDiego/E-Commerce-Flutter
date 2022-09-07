@@ -28,39 +28,42 @@ class _ProductDetailsState extends State<ProductDetails> {
               icon: const Icon(Icons.arrow_back),
               onPressed: () => {Navigator.of(context).pop()}),
         ),
-        body: ListView(
-          children: [
-            Column(
-              children: [
-                const SizedBox(height: 40),
-                Image(image: NetworkImage(widget.item.imgUrl)),
-                const SizedBox(
-                  height: 40,
-                ),
-                Center(
-                  child: Text(widget.item.name,
-                      style: GoogleFonts.inter(
-                          fontSize: 32, fontWeight: FontWeight.bold)),
-                ),
-                const SizedBox(height: 20),
-                const Divider(),
-                Row(
-                  children: [
-                    const SizedBox(height: 90),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        widget.item.description,
+        body: Container(
+          margin: const EdgeInsets.only(bottom: 165),
+          child: ListView(
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 40),
+                  Image(image: NetworkImage(widget.item.imgUrl)),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Text(widget.item.name,
                         style: GoogleFonts.inter(
-                            fontSize: 16, fontWeight: FontWeight.w300),
-                      ),
-                    ))
-                  ],
-                )
-              ],
-            )
-          ],
+                            fontSize: 32, fontWeight: FontWeight.bold)),
+                  ),
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  Row(
+                    children: [
+                      const SizedBox(height: 90),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          widget.item.description,
+                          style: GoogleFonts.inter(
+                              fontSize: 16, fontWeight: FontWeight.w300),
+                        ),
+                      ))
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,

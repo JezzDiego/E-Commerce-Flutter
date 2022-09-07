@@ -39,6 +39,7 @@ dependencies:
   google_sign_in: ^5.4.1
   provider: ^6.0.3
   syncfusion_flutter_datagrid: ^20.2.45
+  animated_card: ^2.0.0
 
 dev_dependencies:
   flutter_test:

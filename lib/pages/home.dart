@@ -1,3 +1,4 @@
+import 'package:animated_card/animated_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,15 +68,17 @@ class _HomePage extends State<MyHomePage> {
               } else if (snapshot.hasData) {
                 final items = snapshot.data!;
 
-                return GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 8.0 / 10.0),
-                  children: items.map(buildItem).toList(),
+                return AnimatedCard(
+                  direction: AnimatedCardDirection.bottom,
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 8.0 / 10.0),
+                    children: items.map(buildItem).toList(),
+                  ),
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),
