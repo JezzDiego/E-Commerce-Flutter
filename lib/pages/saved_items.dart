@@ -45,10 +45,22 @@ class _SavedItemsState extends State<SavedItems> {
               return const Text("Algo deu errado");
             } else if (snapshot.hasData) {
               final items = snapshot.data;
-              return items == null
-                  ? const Center(
-                      child: Text(
-                          "Ao salvar algum item você poderá acessá-lo aqui"))
+              return items == null || items.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.heart_broken, size: 80),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Vocẽ ainda não salvou nenhum item",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
                   : ListView(
                       shrinkWrap: true,
                       children: items.map(buildSavedItems).toList(),

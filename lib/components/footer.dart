@@ -49,10 +49,10 @@ class _FooterState extends State<Footer> {
             activeIcon: Icon(Icons.shopping_cart, color: Colors.black),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star_border, color: Colors.black),
+            icon: Icon(Icons.favorite_border, color: Colors.black),
             label: 'Itens Salvos',
             tooltip: 'Itens salvos',
-            activeIcon: Icon(Icons.star, color: Colors.black),
+            activeIcon: Icon(Icons.favorite, color: Colors.black),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined, color: Colors.black),
