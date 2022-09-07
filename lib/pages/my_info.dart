@@ -13,6 +13,7 @@ class MyInfo extends StatefulWidget {
 
 class _MyInfoState extends State<MyInfo> {
   final user = FirebaseAuth.instance.currentUser!;
+  final nameCodeContrller = TextEditingController();
   final zipCodeContrller = TextEditingController();
   final streetController = TextEditingController();
   final districtContrller = TextEditingController();
@@ -53,19 +54,16 @@ class _MyInfoState extends State<MyInfo> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      buildInfo(
-                          "Nome Completo",
-                          user.displayName != null
-                              ? "${user.displayName}"
-                              : "Não cadastrado"),
+                      editAddress
+                          ? buildTextFieldInfo(
+                              "Nome", TextInputType.text, nameCodeContrller)
+                          : buildInfo(
+                              "Nome Completo",
+                              user.displayName != null
+                                  ? "${user.displayName}"
+                                  : "Não cadastrado, recarregue a página para ver as mudanças"),
                       const SizedBox(height: 40),
                       buildInfo("Email", user.email!),
-                      const SizedBox(height: 40),
-                      buildInfo(
-                          "Celular",
-                          user.phoneNumber == null
-                              ? "Não cadastrado"
-                              : "${user.phoneNumber}"),
                       const SizedBox(height: 40),
                       Text(
                         "Endereço",
@@ -125,6 +123,8 @@ class _MyInfoState extends State<MyInfo> {
                                   )),
                                 ),
                                 onPressed: () {
+                                  user.updateDisplayName(
+                                      nameCodeContrller.text);
                                   createAdress(
                                       zipCodeContrller.text,
                                       streetController.text,
