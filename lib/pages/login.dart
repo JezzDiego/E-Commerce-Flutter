@@ -1,5 +1,6 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/components/initial_screen.dart';
+import 'package:araplantas_mobile/main.dart';
 import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -177,7 +178,11 @@ class _LoginState extends State<Login> {
                                 final provider =
                                     Provider.of<GoogleSignInProvider>(context,
                                         listen: false);
-                                provider.googleLogin();
+                                provider.googleLogin().then((value) =>
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const HomePage())));
                               },
                               icon: const Image(
                                 image: AssetImage("images/google.png"),
