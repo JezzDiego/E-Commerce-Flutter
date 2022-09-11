@@ -54,7 +54,7 @@ class _SavedItemsState extends State<SavedItems> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              "Vocẽ ainda não salvou nenhum item",
+                              "Você ainda não salvou nenhum item",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
