@@ -1,5 +1,5 @@
+import 'package:araplantas_mobile/components/product_details.dart';
 import 'package:flutter/material.dart';
-import '../pages/product_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
 
@@ -41,13 +41,13 @@ class _HomeItemCardState extends State<HomeItemCard> {
                 height: 180,
                 width: 180,
                 child: Image.network(
-                  widget.item.imgUrl,
+                  widget.item.imgUrl!,
                   width: 120,
                   height: 130,
                 ),
               ),
               Text(
-                widget.item.name,
+                widget.item.name!,
                 style: GoogleFonts.inter(
                   fontSize: 24,
                   color: Colors.black,

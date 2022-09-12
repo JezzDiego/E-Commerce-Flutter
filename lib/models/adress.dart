@@ -1,29 +1,31 @@
 class Adress {
-  final String id;
-  final String zipCode;
-  final String street;
-  final String district;
-  final String houseNumber;
+  Adress({
+    this.id,
+    this.zipCode,
+    this.district,
+    this.houseNumber,
+    this.street,
+  });
 
-  Adress(
-      {required this.id,
-      required this.zipCode,
-      required this.street,
-      required this.district,
-      required this.houseNumber});
+  String? id;
+  String? zipCode;
+  String? district;
+  String? houseNumber;
+  String? street;
+
+  factory Adress.fromJson(Map<String, dynamic> json) => Adress(
+        id: json["id"] == null ? null : json["id"],
+        zipCode: json["zipCode"] == null ? null : json["zipCode"],
+        district: json["district"] == null ? null : json["district"],
+        houseNumber: json["houseNumber"] == null ? null : json["houseNumber"],
+        street: json["street"] == null ? null : json["street"],
+      );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'zipCode': zipCode,
-        'street': street,
-        'district': district,
-        'houseNumber': houseNumber
+        "id": id == null ? null : id,
+        "zipCode": zipCode == null ? null : zipCode,
+        "district": district == null ? null : district,
+        "houseNumber": houseNumber == null ? null : houseNumber,
+        "street": street == null ? null : street,
       };
-
-  static Adress fromJson(Map<String, dynamic> json) => Adress(
-      id: json['id'],
-      zipCode: json['zipCode'],
-      street: json['street'],
-      district: json['district'],
-      houseNumber: json['houseNumber']);
 }

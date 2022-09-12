@@ -1,8 +1,8 @@
+import 'package:araplantas_mobile/models/item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/item.dart';
 
 class SavedItemCard extends StatefulWidget {
   final Item item;
@@ -45,7 +45,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          widget.item.name,
+                          widget.item.name!,
                           style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.w200,
@@ -119,7 +119,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl,
+            widget.item.imgUrl!,
             width: 120,
             height: 130,
           ),

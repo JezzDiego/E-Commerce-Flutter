@@ -42,7 +42,7 @@ class _CartItemState extends State<CartItem> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          widget.item.name,
+                          widget.item.name!,
                           style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.w200,
@@ -111,7 +111,7 @@ class _CartItemState extends State<CartItem> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl,
+            widget.item.imgUrl!,
             width: 120,
             height: 130,
           ),
