@@ -17,6 +17,7 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   final user = FirebaseAuth.instance.currentUser!;
   Icon currentIcon = const Icon(Icons.favorite_border);
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,31 +91,35 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 const SizedBox(height: 25),
                 Center(
-                  child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                          width: 343,
-                          height: 65,
-                          decoration: const BoxDecoration(
-                              color: Color(0xFFFEE440),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Adicionar ao carrinho",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : GestureDetector(
+                          onTap: () {
+                            addToCart(context, widget.itemId);
+                          },
+                          child: Container(
+                              width: 343,
+                              height: 65,
+                              decoration: const BoxDecoration(
+                                  color: Color(0xFFFEE440),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Adicionar ao carrinho",
+                                      style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    const Icon(Icons.shopping_bag_outlined)
+                                  ],
                                 ),
-                                const SizedBox(width: 6),
-                                const Icon(Icons.shopping_bag_outlined)
-                              ],
-                            ),
-                          ))),
+                              ))),
                 )
               ],
             ),
@@ -149,8 +154,59 @@ class _ProductDetailsState extends State<ProductDetails> {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: Text(e.toString()),
-          content: const Text("Dados atualizados com sucesso"),
+          title: const Text("Erro"),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Erro"),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    }
+  }
+
+  Future addToCart(context, String itemId) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final docItem = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('cart')
+          .doc(itemId);
+
+      final item = Item(
+          id: itemId,
+          name: widget.item.name,
+          price: widget.item.price,
+          imgUrl: widget.item.imgUrl,
+          description: widget.item.description);
+      await docItem.set(item.toJson());
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Erro"),
+          content: Text(e.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -165,7 +221,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: Text(e.toString()),
-          content: const Text("Erro ao Salvar"),
+          content: Text(e.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -175,6 +231,10 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
       );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }

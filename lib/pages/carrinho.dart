@@ -1,4 +1,6 @@
 import 'package:araplantas_mobile/components/cart_item_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,19 +13,8 @@ class Carrinho extends StatefulWidget {
 }
 
 class _CarrinhoState extends State<Carrinho> {
-  Item item1 = Item(
-      id: "03",
-      name: 'Smartphone',
-      price: 1320.99,
-      imgUrl: 'https://imgs.casasbahia.com.br/55048200/1g.jpg?imwidth=300',
-      description: 'É... Apenas um cacto mesmo');
-
-  Item item2 = Item(
-      id: "04",
-      name: 'Mochila Muito Top',
-      price: 259.99,
-      imgUrl: 'https://imgs.casasbahia.com.br/55011914/1xg.jpg?imwidth=300',
-      description: 'Simplesmente a melhor mochila do app');
+  final user = FirebaseAuth.instance.currentUser!;
+  double finalPrice = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +51,7 @@ class _CarrinhoState extends State<Carrinho> {
                           style: GoogleFonts.inter(
                               fontSize: 26, fontWeight: FontWeight.bold),
                         ),
-                        Text("R\$1.580,98",
+                        Text("R\$$finalPrice",
                             style: GoogleFonts.inter(
                                 fontSize: 26, fontWeight: FontWeight.bold))
                       ],
@@ -101,14 +92,50 @@ class _CarrinhoState extends State<Carrinho> {
 
   buildBody() {
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CartItem(item: item1),
-            CartItem(item: item2),
-          ],
-        ),
-      ),
+      child: StreamBuilder<List<Item>>(
+          stream: readCartItems(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Algo deu errado");
+            } else if (snapshot.hasData) {
+              final items = snapshot.data;
+              return items == null || items.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.heart_broken, size: 80),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Você ainda não adicionou nehum item no carrinho",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : ListView(
+                      shrinkWrap: true,
+                      children: items.map(buildCartItem).toList(),
+                    );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          })),
     );
+  }
+
+  Stream<List<Item>> readCartItems() => FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('cart')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
+
+  Widget buildCartItem(Item cartItem) {
+    finalPrice += cartItem.price;
+    return CartItem(item: cartItem);
   }
 }

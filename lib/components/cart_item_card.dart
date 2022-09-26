@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
@@ -11,6 +13,7 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
+  final user = FirebaseAuth.instance.currentUser!;
   int counter = 1;
   Color textColor = Colors.grey;
   @override
@@ -85,7 +88,14 @@ class _CartItemState extends State<CartItem> {
             IconButton(
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
-              onPressed: () {},
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .collection('cart')
+                    .doc(widget.item.id)
+                    .delete();
+              },
             ),
           ],
         ),
