@@ -14,7 +14,6 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   final user = FirebaseAuth.instance.currentUser!;
-  double finalPrice = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class _CarrinhoState extends State<Carrinho> {
                           style: GoogleFonts.inter(
                               fontSize: 26, fontWeight: FontWeight.bold),
                         ),
-                        Text("R\$$finalPrice",
+                        Text("R\$0,00",
                             style: GoogleFonts.inter(
                                 fontSize: 26, fontWeight: FontWeight.bold))
                       ],
@@ -129,13 +128,12 @@ class _CarrinhoState extends State<Carrinho> {
   Stream<List<Item>> readCartItems() => FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
-      .collection('cart')
+      .collection('savedItems')
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
 
   Widget buildCartItem(Item cartItem) {
-    finalPrice += cartItem.price;
     return CartItem(item: cartItem);
   }
 }

@@ -92,7 +92,7 @@ class _CartItemState extends State<CartItem> {
                 FirebaseFirestore.instance
                     .collection('users')
                     .doc(user.uid)
-                    .collection('cart')
+                    .collection('savedItems')
                     .doc(widget.item.id)
                     .delete();
               },

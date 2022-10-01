@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "794908656712-hp3v29iv7o7pbvoj4apgkmfbug0aiorp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.araplantas_mobile",
+            "certificate_hash": "59eb5d12c5a71710820078f74a990a59f3a49faa"
+          }
+        },
+        {
           "client_id": "794908656712-mb2ilcsft1pm7ncq858jvikqieaksgvi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "794908656712-mb2ilcsft1pm7ncq858jvikqieaksgvi.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "794908656712-kuet76l0sajel8vm16f7b8q58j3k23le.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.araplantasmvvm"
+              }
             }
           ]
         }
