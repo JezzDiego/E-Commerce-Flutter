@@ -15,6 +15,7 @@ class SavedItemCard extends StatefulWidget {
 
 class _SavedItemCardState extends State<SavedItemCard> {
   final user = FirebaseAuth.instance.currentUser!;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,25 +57,29 @@ class _SavedItemCardState extends State<SavedItemCard> {
                     const SizedBox(height: 8),
                     SizedBox(
                       width: 180,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xFFFEE440),
-                          shadowColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          textStyle: GoogleFonts.inter(
-                            fontSize: 17,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
-                        child: Text(
-                          'Mover para o carrinho',
-                          style: GoogleFonts.inter(color: Colors.black),
-                        ),
-                      ),
+                      child: !isLoading
+                          ? ElevatedButton(
+                              onPressed: () {
+                                addToCart(context, widget.item.id);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFFFEE440),
+                                shadowColor: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                textStyle: GoogleFonts.inter(
+                                  fontSize: 17,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                              ),
+                              child: Text(
+                                'Mover para o carrinho',
+                                style: GoogleFonts.inter(color: Colors.black),
+                              ),
+                            )
+                          : const Center(child: CircularProgressIndicator()),
                     ),
                     const SizedBox(
                       height: 25,
@@ -126,5 +131,64 @@ class _SavedItemCardState extends State<SavedItemCard> {
         )),
       ],
     );
+  }
+
+  Future addToCart(context, String itemId) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final docItem = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('cart')
+          .doc(itemId);
+
+      final item = Item(
+          id: itemId,
+          name: widget.item.name,
+          price: widget.item.price,
+          imgUrl: widget.item.imgUrl,
+          description: widget.item.description);
+      await docItem.set(item.toJson());
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Erro"),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(e.toString()),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Item adicionado ao carrinho'),
+        duration: Duration(seconds: 2),
+      ));
+    }
   }
 }

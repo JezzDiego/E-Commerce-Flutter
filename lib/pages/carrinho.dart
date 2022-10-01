@@ -14,7 +14,33 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   final user = FirebaseAuth.instance.currentUser!;
+  double totalPrice = 0;
 
+  getCartTotalPrice() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('cart')
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((element) {
+        setState(() {
+          totalPrice += element.data()['price'];
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // implement initState
+    super.initState();
+    getCartTotalPrice();
+  }
+
+  @override
+  // TODO: implement context
+  BuildContext get context => super.context;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +76,7 @@ class _CarrinhoState extends State<Carrinho> {
                           style: GoogleFonts.inter(
                               fontSize: 26, fontWeight: FontWeight.bold),
                         ),
-                        Text("R\$0,00",
+                        Text("R\$ ${totalPrice.toStringAsFixed(2)}",
                             style: GoogleFonts.inter(
                                 fontSize: 26, fontWeight: FontWeight.bold))
                       ],
@@ -107,7 +133,7 @@ class _CarrinhoState extends State<Carrinho> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              "Você ainda não adicionou nehum item no carrinho",
+                              "Você ainda não adicionou itens ao carrinho",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -128,7 +154,7 @@ class _CarrinhoState extends State<Carrinho> {
   Stream<List<Item>> readCartItems() => FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
-      .collection('savedItems')
+      .collection('cart')
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
