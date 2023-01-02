@@ -1,3 +1,5 @@
+import 'package:araplantas_mobile/data/user_api.dart';
+import 'package:araplantas_mobile/models/user.dart' as user_model;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,8 @@ class GoogleSignInProvider extends ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential creds =
+          await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print(e.toString());
     } finally {
