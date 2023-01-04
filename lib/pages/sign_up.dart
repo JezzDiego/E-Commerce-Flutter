@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:araplantas_mobile/data/user_api.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,57 +28,63 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       loading = true;
     });
-
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      /*await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
       await FirebaseFirestore.instance.collection('users').add({
         'email': emailController.text,
         'displayName': nameController.text,
-      });
-
-      await showDialog(
-          context: context,
-          builder: ((context) => AlertDialog(
-                title: const Text("Cadastrado com sucesso"),
-                content: const Text(
-                    "Sua conta foi criada, agora você pode entrar com suas credenciais"),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) {
-                            return const Login();
-                          },
-                        ));
-                      },
-                      child: const Text('OK'))
-                ],
-              )));
-
+      });*/
+      final response = await UserApi().create(UserModel.User(
+          email: emailController.text,
+          name: nameController.text,
+          password: passwordController.text));
+      if (response.statusCode != 201) {
+        print('Status: ${response.statusCode}');
+        print('Body: ${response.body}');
+        final bodyJson = jsonDecode(response.body);
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Erro"),
+                  titleTextStyle: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                  content: Text(bodyJson["errors"][0]["message"]),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "OK",
+                          style: TextStyle(color: Colors.black),
+                        )),
+                  ],
+                ));
+      } else {
+        await showDialog(
+            context: context,
+            builder: ((context) => AlertDialog(
+                  title: const Text("Cadastrado com sucesso"),
+                  content: const Text(
+                      "Sua conta foi criada, agora você pode entrar com suas credenciais"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const Login();
+                            },
+                          ));
+                        },
+                        child: const Text('OK'))
+                  ],
+                )));
+      }
       //Navigator.of(context).pop();
-    } on FirebaseAuthException catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text("Erro"),
-                titleTextStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
-                content: Text(verifyContent(e.code)),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "OK",
-                        style: TextStyle(color: Colors.black),
-                      )),
-                ],
-              ));
     } finally {
       setState(() {
         loading = false;
@@ -153,8 +163,8 @@ class _SignUpState extends State<SignUp> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Campo obrigatório";
-                            } else if (value.length < 3) {
-                              return "O campo deve ter mais de 3 caracteres";
+                            } else if (value.length < 6) {
+                              return "O campo deve ter pelo menos 6 caracteres";
                             } else if (confirmPasswordController.text !=
                                 passwordController.text) {
                               return "As senha devem ser iguais";

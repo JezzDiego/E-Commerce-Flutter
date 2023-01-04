@@ -31,15 +31,21 @@ class UserApi {
     }
   }
 
-  Future<http.Response> create(User user) {
+  Future<http.Response> create(User user) async {
     Uri url = Uri.http(_baseUrl, "/users");
-    return http.post(
+    final Response response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: user.toJson(),
+      body: jsonEncode(<String, String>{
+        'name': user.name!,
+        'email': user.email!,
+        'password': user.password!,
+        'password_confirmation': user.password!
+      }),
     );
+    return response;
   }
 
   Future<http.Response> delete(String id) {

@@ -13,11 +13,13 @@ class Item {
       required this.description});
 
   static Item fromJson(Map<String, dynamic> json) => Item(
-      id: json['id'],
+      id: json['id'].toString(),
       name: json['name'],
-      price: json['price'],
-      imgUrl: json['imgUrl'],
-      description: json['description']);
+      price: double.parse(json['price']),
+      imgUrl: json['image_url'] != null
+          ? json["image_url"]
+          : "https://static.thenounproject.com/png/3734341-200.png",
+      description: json['description'] != null ? json["description"] : "");
 
   Map<String, dynamic> toJson() => {
         'id': id,

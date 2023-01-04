@@ -1,4 +1,5 @@
 import 'package:araplantas_mobile/models/item.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/carrinho.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductDetails extends StatefulWidget {
+  final UserModel.User user;
   final Item item;
   final String itemId;
-  const ProductDetails({Key? key, required this.item, required this.itemId})
+  const ProductDetails(
+      {Key? key, required this.item, required this.itemId, required this.user})
       : super(key: key);
 
   @override
@@ -16,7 +19,6 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  final user = FirebaseAuth.instance.currentUser!;
   Icon currentIcon = const Icon(Icons.favorite_border);
   bool isLoading = false;
 
@@ -138,11 +140,11 @@ class _ProductDetailsState extends State<ProductDetails> {
       );
     });
     try {
-      final docItem = FirebaseFirestore.instance
+      /*final docItem = FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .collection('savedItems')
-          .doc(itemId);
+          .doc(itemId);*/
 
       final item = Item(
           id: itemId,
@@ -150,7 +152,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           price: widget.item.price,
           imgUrl: widget.item.imgUrl,
           description: widget.item.description);
-      await docItem.set(item.toJson());
+      //await docItem.set(item.toJson());
     } on FirebaseException catch (e) {
       showDialog(
         context: context,
@@ -189,11 +191,11 @@ class _ProductDetailsState extends State<ProductDetails> {
       isLoading = true;
     });
     try {
-      final docItem = FirebaseFirestore.instance
+      /*final docItem = FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .collection('cart')
-          .doc(itemId);
+          .doc(itemId);*/
 
       final item = Item(
           id: itemId,
@@ -201,7 +203,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           price: widget.item.price,
           imgUrl: widget.item.imgUrl,
           description: widget.item.description);
-      await docItem.set(item.toJson());
+      //await docItem.set(item.toJson());
     } on FirebaseException catch (e) {
       showDialog(
         context: context,

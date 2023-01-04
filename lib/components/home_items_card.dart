@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import '../models/user.dart';
 import '../pages/product_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
 
 class HomeItemCard extends StatefulWidget {
   final Item item;
+  final User user;
   final String itemId;
-  const HomeItemCard({Key? key, required this.item, required this.itemId})
+  const HomeItemCard(
+      {Key? key, required this.item, required this.itemId, required this.user})
       : super(key: key);
 
   @override
@@ -26,6 +29,7 @@ class _HomeItemCardState extends State<HomeItemCard> {
             return ProductDetails(
               item: widget.item,
               itemId: widget.itemId,
+              user: widget.user,
             );
           })));
         },

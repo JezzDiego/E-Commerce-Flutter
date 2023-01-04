@@ -1,4 +1,6 @@
 import 'package:animated_card/animated_card.dart';
+import 'package:araplantas_mobile/data/item_api.dart';
+import 'package:araplantas_mobile/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +8,8 @@ import '../components/home_items_card.dart';
 import '../models/item.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  final User user;
+  const MyHomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomePage createState() => _HomePage();
@@ -60,10 +63,11 @@ class _HomePage extends State<MyHomePage> {
         ),
         Expanded(
           flex: 12,
-          child: StreamBuilder<List<Item>>(
-            stream: readItems(),
+          child: FutureBuilder<List<Item>>(
+            future: ItemApi().findAll(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
+                print(snapshot.error);
                 return const Text("algo deu errado");
               } else if (snapshot.hasData) {
                 final items = snapshot.data!;
@@ -87,7 +91,8 @@ class _HomePage extends State<MyHomePage> {
     );
   }
 
-  Widget buildItem(Item item) => HomeItemCard(item: item, itemId: item.id);
+  Widget buildItem(Item item) =>
+      HomeItemCard(item: item, itemId: item.id, user: widget.user);
 
   Stream<List<Item>> readItems() => FirebaseFirestore.instance
       .collection('items')

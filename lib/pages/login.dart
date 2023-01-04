@@ -1,4 +1,3 @@
-import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:araplantas_mobile/data/auth_api.dart';
 import 'package:araplantas_mobile/main.dart';
@@ -160,40 +159,6 @@ class _LoginState extends State<Login> {
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          buildHorizontalLine(),
-                          Text("Ou continue com",
-                              style: GoogleFonts.inter(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                          buildHorizontalLine(),
-                        ],
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: IconButton(
-                              onPressed: () {
-                                final provider =
-                                    Provider.of<GoogleSignInProvider>(context,
-                                        listen: false);
-                                provider.googleLogin().then((value) =>
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const HomePage())));
-                              },
-                              icon: const Image(
-                                image: AssetImage("images/google.png"),
-                              )),
-                        ),
-                      ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

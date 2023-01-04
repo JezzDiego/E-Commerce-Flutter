@@ -5,8 +5,9 @@ class User {
   String? phoneNumber;
   String? email;
   Adress? adress;
+  String? password;
 
-  User({this.name, this.phoneNumber, this.email, this.adress});
+  User({this.name, this.phoneNumber, this.email, this.adress, this.password});
 
   User.fromJson(Map<String, dynamic> json)
       : name = json["name"],
@@ -18,9 +19,9 @@ class User {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "phone": phoneNumber,
+        "phone": phoneNumber != null ? phoneNumber : null,
         "email": email,
-        "adress": adress,
+        "adress": adress != null ? adress : null,
       };
 
   User.fromSnapshot(snapshot)
