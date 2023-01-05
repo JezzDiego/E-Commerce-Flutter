@@ -1,23 +1,26 @@
 import 'package:araplantas_mobile/components/cart_item_card.dart';
+import 'package:araplantas_mobile/data/user_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../models/user.dart' as UserModel;
+
 class Carrinho extends StatefulWidget {
-  const Carrinho({Key? key}) : super(key: key);
+  final UserModel.User user;
+  const Carrinho({Key? key, required this.user}) : super(key: key);
 
   @override
   State<Carrinho> createState() => _CarrinhoState();
 }
 
 class _CarrinhoState extends State<Carrinho> {
-  final user = FirebaseAuth.instance.currentUser!;
   double totalPrice = 0;
 
   getCartTotalPrice() {
-    FirebaseFirestore.instance
+    /*FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('cart')
@@ -28,7 +31,7 @@ class _CarrinhoState extends State<Carrinho> {
           totalPrice += element.data()['price'];
         });
       });
-    });
+    });*/
   }
 
   @override

@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
+import '../models/user.dart' as UserModel;
 import '../components/saved_item_card.dart';
 
 class SavedItems extends StatefulWidget {
-  const SavedItems({Key? key}) : super(key: key);
+  final UserModel.User user;
+  const SavedItems({Key? key, required this.user}) : super(key: key);
 
   @override
   _SavedItemsState createState() => _SavedItemsState();

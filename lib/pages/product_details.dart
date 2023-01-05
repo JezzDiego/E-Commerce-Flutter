@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductDetails extends StatefulWidget {
-  final UserModel.User user;
   final Item item;
   final String itemId;
-  const ProductDetails(
-      {Key? key, required this.item, required this.itemId, required this.user})
+  const ProductDetails({Key? key, required this.item, required this.itemId})
       : super(key: key);
 
   @override

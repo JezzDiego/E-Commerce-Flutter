@@ -1,7 +1,6 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:araplantas_mobile/data/item_api.dart';
 import 'package:araplantas_mobile/models/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/home_items_card.dart';
@@ -91,12 +90,5 @@ class _HomePage extends State<MyHomePage> {
     );
   }
 
-  Widget buildItem(Item item) =>
-      HomeItemCard(item: item, itemId: item.id, user: widget.user);
-
-  Stream<List<Item>> readItems() => FirebaseFirestore.instance
-      .collection('items')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
+  Widget buildItem(Item item) => HomeItemCard(item: item, itemId: item.id);
 }

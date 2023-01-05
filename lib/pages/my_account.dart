@@ -1,4 +1,5 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/login.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
@@ -8,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MyAccount extends StatefulWidget {
-  const MyAccount({Key? key}) : super(key: key);
+  final UserModel.User user;
+  const MyAccount({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyAccount> createState() => _MyAccountState();

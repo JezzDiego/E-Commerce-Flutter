@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:araplantas_mobile/data/auth_api.dart';
 import 'package:araplantas_mobile/main.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -53,9 +56,13 @@ class _LoginState extends State<Login> {
                   ],
                 ));
       } else {
+        UserModel.User user =
+            UserModel.User.fromJson(jsonDecode(response.body)["user"]);
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return const InitialScreen();
+            return InitialScreen(
+              user: user,
+            );
           },
         ));
       }
