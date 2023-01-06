@@ -8,6 +8,7 @@ import '../models/item.dart';
 
 class MyHomePage extends StatefulWidget {
   final User user;
+
   const MyHomePage({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -63,14 +64,13 @@ class _HomePage extends State<MyHomePage> {
         Expanded(
           flex: 12,
           child: FutureBuilder<List<Item>>(
-            future: ItemApi().findAll(),
+            future: ItemApi(authToken: widget.user.authToken!).findAll(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 print(snapshot.error);
                 return const Text("algo deu errado");
               } else if (snapshot.hasData) {
                 final items = snapshot.data!;
-
                 return AnimatedCard(
                   direction: AnimatedCardDirection.bottom,
                   child: GridView(
@@ -90,5 +90,9 @@ class _HomePage extends State<MyHomePage> {
     );
   }
 
-  Widget buildItem(Item item) => HomeItemCard(item: item, itemId: item.id);
+  Widget buildItem(Item item) => HomeItemCard(
+        item: item,
+        itemId: item.id,
+        user: widget.user,
+      );
 }

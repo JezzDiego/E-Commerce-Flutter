@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class MyAccount extends StatefulWidget {
   final UserModel.User user;
+
   const MyAccount({Key? key, required this.user}) : super(key: key);
 
   @override

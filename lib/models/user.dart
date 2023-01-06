@@ -7,6 +7,7 @@ class User {
   String? email;
   Adress? adress;
   String? password;
+  String? authToken;
 
   User(
       {this.id,
@@ -14,7 +15,8 @@ class User {
       this.phoneNumber,
       this.email,
       this.adress,
-      this.password});
+      this.password,
+      this.authToken});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json["id"],
@@ -23,7 +25,8 @@ class User {
         email = json["email"],
         adress = json["addresses"] != null && json["addresses"].length > 0
             ? Adress.fromJson(json["addresses"][0] ?? [])
-            : null,
+            : null;
+
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,

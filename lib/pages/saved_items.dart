@@ -8,6 +8,7 @@ import '../components/saved_item_card.dart';
 
 class SavedItems extends StatefulWidget {
   final UserModel.User user;
+
   const SavedItems({Key? key, required this.user}) : super(key: key);
 
   @override

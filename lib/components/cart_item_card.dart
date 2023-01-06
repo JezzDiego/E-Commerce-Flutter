@@ -3,17 +3,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
+import '../models/user.dart' as UserModel;
 
 class CartItem extends StatefulWidget {
   final Item item;
-  const CartItem({Key? key, required this.item}) : super(key: key);
+  final UserModel.User user;
+  final Function(double totalPrice) notifyParent;
+  final double totalPrice;
+  const CartItem(
+      {Key? key,
+      required this.item,
+      required this.user,
+      required this.notifyParent,
+      required this.totalPrice})
+      : super(key: key);
 
   @override
   _CartItemState createState() => _CartItemState();
 }
 
 class _CartItemState extends State<CartItem> {
-  final user = FirebaseAuth.instance.currentUser!;
   int counter = 1;
   Color textColor = Colors.grey;
   @override
@@ -89,12 +98,12 @@ class _CartItemState extends State<CartItem> {
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
               onPressed: () {
-                FirebaseFirestore.instance
+                /*FirebaseFirestore.instance
                     .collection('users')
                     .doc(user.uid)
                     .collection('cart')
                     .doc(widget.item.id)
-                    .delete();
+                    .delete();*/
               },
             ),
           ],
@@ -135,6 +144,7 @@ class _CartItemState extends State<CartItem> {
       counter++;
       textColor = Colors.black;
     });
+    widget.notifyParent(widget.totalPrice + widget.item.price * counter);
   }
 
   decrementCounter() {
@@ -149,5 +159,6 @@ class _CartItemState extends State<CartItem> {
         textColor = Colors.grey;
       });
     }
+    widget.notifyParent(widget.totalPrice + widget.item.price * counter);
   }
 }

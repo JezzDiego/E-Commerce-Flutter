@@ -56,8 +56,10 @@ class _LoginState extends State<Login> {
                   ],
                 ));
       } else {
+        String authToken = jsonDecode(response.body)["token"]["token"];
         UserModel.User user =
             UserModel.User.fromJson(jsonDecode(response.body)["user"]);
+        user.authToken = authToken;
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
             return InitialScreen(
