@@ -55,7 +55,7 @@ class _CarrinhoState extends State<Carrinho> {
             Expanded(
               child: FutureBuilder<List<Item>>(
                   future: ItemApi(authToken: widget.user.authToken!)
-                      .findUserItems(widget.user.id.toString()),
+                      .findUserSavedItems(widget.user.id.toString()),
                   builder: ((context, snapshot) {
                     if (snapshot.hasError) {
                       return const Text("Algo deu errado");
@@ -165,7 +165,7 @@ class _CarrinhoState extends State<Carrinho> {
       });
     });*/
     ItemApi(authToken: widget.user.authToken!)
-        .findUserItems(widget.user.id.toString());
+        .findUserSavedItems(widget.user.id.toString());
   }
 
   /*Stream<List<Item>> readCartItems() => FirebaseFirestore.instance

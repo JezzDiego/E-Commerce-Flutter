@@ -1,7 +1,9 @@
+import 'package:araplantas_mobile/data/item_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import '../models/item.dart';
 import '../models/user.dart' as UserModel;
 
@@ -25,6 +27,8 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   int counter = 1;
   Color textColor = Colors.grey;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -94,22 +98,68 @@ class _CartItemState extends State<CartItem> {
                 ),
               ],
             ),
-            IconButton(
-              color: const Color(0xFF808080),
-              icon: const Icon(Icons.highlight_remove),
-              onPressed: () {
-                /*FirebaseFirestore.instance
+            SizedBox(
+              child: !isLoading
+                  ? IconButton(
+                      color: const Color(0xFF808080),
+                      icon: const Icon(Icons.highlight_remove),
+                      onPressed: () {
+                        removeToCart(context, widget.item.id);
+                        /*FirebaseFirestore.instance
                     .collection('users')
                     .doc(user.uid)
                     .collection('cart')
                     .doc(widget.item.id)
                     .delete();*/
-              },
-            ),
+                      },
+                    )
+                  : const Center(child: CircularProgressIndicator()),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Future removeToCart(context, String itemId) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    Response response = await ItemApi(authToken: widget.user.authToken!)
+        .deleteUserItem(widget.user.id.toString(), itemId);
+
+    switch (response.statusCode) {
+      case 200:
+        setState(() {
+          isLoading = false;
+          widget.notifyParent(widget.totalPrice - widget.item.price * 0);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Item removido do carrinho'),
+          duration: Duration(seconds: 2),
+        ));
+        break;
+      case 404:
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text("Erro"),
+            content: Text(response.body),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                  child: const Text("OK"))
+            ],
+          ),
+        );
+        break;
+    }
   }
 
   buildImage() {
@@ -130,7 +180,9 @@ class _CartItemState extends State<CartItem> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl,
+            widget.item.imgUrl != null || widget.item.imgUrl != ""
+                ? widget.item.imgUrl
+                : "https://static.thenounproject.com/png/3734341-200.png",
             width: 120,
             height: 130,
           ),

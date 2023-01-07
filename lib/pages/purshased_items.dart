@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/data/item_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,18 +7,16 @@ import '../models/item.dart';
 import '../models/user.dart' as UserModel;
 import '../components/saved_item_card.dart';
 
-class SavedItems extends StatefulWidget {
+class PurshasedItems extends StatefulWidget {
   final UserModel.User user;
 
-  const SavedItems({Key? key, required this.user}) : super(key: key);
+  const PurshasedItems({Key? key, required this.user}) : super(key: key);
 
   @override
-  _SavedItemsState createState() => _SavedItemsState();
+  _PurshasedItemsState createState() => _PurshasedItemsState();
 }
 
-class _SavedItemsState extends State<SavedItems> {
-  final user = FirebaseAuth.instance.currentUser!;
-
+class _PurshasedItemsState extends State<PurshasedItems> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +25,7 @@ class _SavedItemsState extends State<SavedItems> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            'Itens Salvos',
+            'Itens Comprados',
             style: GoogleFonts.inter(),
           ),
           centerTitle: false,
@@ -41,8 +40,9 @@ class _SavedItemsState extends State<SavedItems> {
   buildBody() {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
-      child: StreamBuilder<List<Item>>(
-          stream: readSavedItems(),
+      child: FutureBuilder<List<Item>>(
+          future: ItemApi(authToken: widget.user.authToken!)
+              .findUserPurshasedItems(widget.user.id.toString()),
           builder: ((context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Algo deu errado");
@@ -57,7 +57,7 @@ class _SavedItemsState extends State<SavedItems> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              "Você ainda não salvou nenhum item",
+                              "Você ainda não comprou nenhum item",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -90,14 +90,6 @@ class _SavedItemsState extends State<SavedItems> {
       ),
     );
   }
-
-  Stream<List<Item>> readSavedItems() => FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
-      .collection('savedItems')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
 
   Widget buildSavedItems(Item savedItem) => SavedItemCard(item: savedItem);
 }

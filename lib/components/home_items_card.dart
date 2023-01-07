@@ -44,7 +44,9 @@ class _HomeItemCardState extends State<HomeItemCard> {
                 height: 180,
                 width: 180,
                 child: Image.network(
-                  widget.item.imgUrl,
+                  widget.item.imgUrl != null || widget.item.imgUrl != ""
+                      ? widget.item.imgUrl
+                      : "https://static.thenounproject.com/png/3734341-200.png",
                   width: 120,
                   height: 130,
                 ),

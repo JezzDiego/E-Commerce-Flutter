@@ -124,7 +124,9 @@ class _SavedItemCardState extends State<SavedItemCard> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl,
+            widget.item.imgUrl != null || widget.item.imgUrl != ""
+                ? widget.item.imgUrl
+                : "https://static.thenounproject.com/png/3734341-200.png",
             width: 120,
             height: 130,
           ),
@@ -148,7 +150,9 @@ class _SavedItemCardState extends State<SavedItemCard> {
           id: itemId,
           name: widget.item.name,
           price: widget.item.price,
-          imgUrl: widget.item.imgUrl,
+          imgUrl: widget.item.imgUrl != null || widget.item.imgUrl != ""
+              ? widget.item.imgUrl
+              : "https://static.thenounproject.com/png/3734341-200.png",
           description: widget.item.description);
       await docItem.set(item.toJson());
     } on FirebaseException catch (e) {

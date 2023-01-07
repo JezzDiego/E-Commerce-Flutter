@@ -47,7 +47,7 @@ class ItemApi {
     }
   }
 
-  Future<List<Item>> findUserItems(String userId) async {
+  Future<List<Item>> findUserSavedItems(String userId) async {
     Uri url = Uri.http(_baseUrl, "/users/${userId}/items");
     final Response response = await http.get(
       url,
@@ -57,7 +57,27 @@ class ItemApi {
       },
     );
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
+      List<dynamic> body = jsonDecode(response.body)["saved_items"];
+      List<Item> items =
+          body.map((dynamic item) => Item.fromJson(item)).toList();
+      return items;
+    } else {
+      print(response.body);
+      throw "Can´t get user items";
+    }
+  }
+
+  Future<List<Item>> findUserPurshasedItems(String userId) async {
+    Uri url = Uri.http(_baseUrl, "/users/${userId}/items");
+    final Response response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${this.authToken}',
+      },
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body)["purshased_items"];
       List<Item> items =
           body.map((dynamic item) => Item.fromJson(item)).toList();
       return items;
@@ -97,6 +117,14 @@ class ItemApi {
       print(response.body);
       throw "Can't get item.";
     }
+  }
+
+  Future<Response> deleteUserItem(String userId, String itemId) async {
+    Uri url = Uri.http(_baseUrl, "/users/${userId}/items/${itemId}");
+    return await http.delete(url, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ${this.authToken}',
+    });
   }
 
   Future<http.Response> create(Item item) {

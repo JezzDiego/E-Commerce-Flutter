@@ -1,5 +1,5 @@
 class Adress {
-  final String id;
+  final int id;
   final String zipCode;
   final String street;
   final String district;
@@ -20,10 +20,12 @@ class Adress {
         'houseNumber': houseNumber
       };
 
-  static Adress fromJson(Map<String, dynamic> json) => Adress(
-      id: json['id'],
-      zipCode: json['zipCode'],
-      street: json['street'],
-      district: json['district'],
-      houseNumber: json['houseNumber']);
+  static Adress fromJson(Map<String, dynamic> json) {
+    return Adress(
+        id: json['id'],
+        zipCode: json['zip_code'],
+        street: json['street'],
+        district: json['district'],
+        houseNumber: json['house_number']);
+  }
 }

@@ -16,7 +16,7 @@ class Item {
       id: json['id'].toString(),
       name: json['name'],
       price: double.parse(json['price']),
-      imgUrl: json['image_url'] != null
+      imgUrl: json['image_url'] != null || json['image_url'] != ""
           ? json["image_url"]
           : "https://static.thenounproject.com/png/3734341-200.png",
       description: json['description'] != null ? json["description"] : "");
@@ -25,7 +25,9 @@ class Item {
         'id': id,
         'name': name,
         'price': price,
-        'imgUrl': imgUrl,
+        'imgUrl': imgUrl != null || imgUrl != ""
+            ? imgUrl
+            : "https://static.thenounproject.com/png/3734341-200.png",
         'description': description
       };
 }

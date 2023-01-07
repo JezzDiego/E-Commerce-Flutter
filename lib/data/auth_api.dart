@@ -19,4 +19,14 @@ class AuthAPI {
       }),
     );
   }
+
+  Future<http.Response> logout() {
+    Uri url = Uri.http(_baseUrl, "/logout");
+    return http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+  }
 }

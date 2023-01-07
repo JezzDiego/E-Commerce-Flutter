@@ -3,16 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import "package:araplantas_mobile/models/user.dart" as UserModel;
 
 class MyInfo extends StatefulWidget {
-  const MyInfo({Key? key}) : super(key: key);
+  final UserModel.User user;
+  const MyInfo({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyInfo> createState() => _MyInfoState();
 }
 
 class _MyInfoState extends State<MyInfo> {
-  final user = FirebaseAuth.instance.currentUser!;
   final nameCodeContrller = TextEditingController();
   final zipCodeContrller = TextEditingController();
   final streetController = TextEditingController();
@@ -59,11 +60,11 @@ class _MyInfoState extends State<MyInfo> {
                               "Nome", TextInputType.text, nameCodeContrller)
                           : buildInfo(
                               "Nome Completo",
-                              user.displayName != null
-                                  ? "${user.displayName}"
+                              widget.user.name != null
+                                  ? "${widget.user.name}"
                                   : "Não cadastrado, recarregue a página para ver as mudanças"),
                       const SizedBox(height: 40),
-                      buildInfo("Email", user.email!),
+                      buildInfo("Email", widget.user.email!),
                       const SizedBox(height: 40),
                       Text(
                         "Endereço",
@@ -88,21 +89,9 @@ class _MyInfoState extends State<MyInfo> {
                         const SizedBox(height: 40),
                       ],
                       if (editAddress == false) ...[
-                        FutureBuilder<Adress?>(
-                            future: readAdress(),
-                            builder: ((context, snapshot) {
-                              if (snapshot.hasError) {
-                                return const Text("Algo deu errado");
-                              } else if (snapshot.hasData) {
-                                final adress = snapshot.data;
-                                return adress == null
-                                    ? buildInfo("Rua", "Não cadastrado")
-                                    : buildAdress(adress);
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            })),
+                        widget.user.adress == null
+                            ? buildInfo("Rua", "Não cadastrado")
+                            : buildAdress(widget.user.adress!),
                       ],
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,8 +112,8 @@ class _MyInfoState extends State<MyInfo> {
                                   )),
                                 ),
                                 onPressed: () {
-                                  user.updateDisplayName(
-                                      nameCodeContrller.text);
+                                  // widget.user.updateDisplayName(
+                                  //     nameCodeContrller.text);
                                   createAdress(
                                       zipCodeContrller.text,
                                       streetController.text,
@@ -185,8 +174,10 @@ class _MyInfoState extends State<MyInfo> {
   }
 
   Future<Adress?> readAdress() async {
-    final docAdress =
-        FirebaseFirestore.instance.collection('adresses').doc(user.uid);
+    print(widget.user.adress.toString());
+    final docAdress = FirebaseFirestore.instance
+        .collection('adresses')
+        .doc(widget.user.id.toString());
 
     final snapshot = await docAdress.get();
 
@@ -194,7 +185,7 @@ class _MyInfoState extends State<MyInfo> {
       return Adress.fromJson(snapshot.data()!);
     } else {
       return Adress(
-          id: 'erro',
+          id: -1,
           zipCode: 'Não cadastrado',
           street: 'Não cadastrado',
           district: 'Não cadastrado',
@@ -225,16 +216,16 @@ class _MyInfoState extends State<MyInfo> {
       editAddress = false;
     });
     try {
-      final docAdress =
-          FirebaseFirestore.instance.collection('adresses').doc(user.uid);
+      // final docAdress =
+      //     FirebaseFirestore.instance.collection('adresses').doc(user.uid);
 
-      final adress = Adress(
-          id: docAdress.id,
-          zipCode: zipCode,
-          street: street,
-          district: district,
-          houseNumber: houseNumber);
-      await docAdress.set(adress.toJson());
+      // final adress = Adress(
+      //     id: docAdress.id,
+      //     zipCode: zipCode,
+      //     street: street,
+      //     district: district,
+      //     houseNumber: houseNumber);
+      // await docAdress.set(adress.toJson());
     } on FirebaseException catch (e) {
       showDialog(
         context: context,

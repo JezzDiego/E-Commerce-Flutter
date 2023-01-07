@@ -69,7 +69,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           id: itemId,
           name: widget.item.name,
           price: widget.item.price,
-          imgUrl: widget.item.imgUrl,
+          imgUrl: widget.item.imgUrl != null || widget.item.imgUrl != ""
+              ? widget.item.imgUrl
+              : "https://static.thenounproject.com/png/3734341-200.png",
           description: widget.item.description);
       //await docItem.set(item.toJson());
     } on FirebaseException catch (e) {
@@ -129,7 +131,11 @@ class _ProductDetailsState extends State<ProductDetails> {
               Column(
                 children: [
                   const SizedBox(height: 40),
-                  Image(image: NetworkImage(widget.item.imgUrl)),
+                  Image(
+                      image: NetworkImage(widget.item.imgUrl != null ||
+                              widget.item.imgUrl != ""
+                          ? widget.item.imgUrl
+                          : "https://static.thenounproject.com/png/3734341-200.png")),
                   const SizedBox(
                     height: 40,
                   ),
