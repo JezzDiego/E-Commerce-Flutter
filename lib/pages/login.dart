@@ -1,5 +1,6 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
 import 'package:araplantas_mobile/components/initial_screen.dart';
+import 'package:araplantas_mobile/data/auth_api.dart';
 import 'package:araplantas_mobile/main.dart';
 import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,34 +28,38 @@ class _LoginState extends State<Login> {
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) {
-          return const InitialScreen();
-        },
-      ));
-    } on FirebaseAuthException catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text("Erro"),
-                titleTextStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
-                content: Text(verifyContent(e.code)),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "OK",
-                        style: TextStyle(color: Colors.black),
-                      )),
-                ],
-              ));
+      // await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //     email: emailController.text, password: passwordController.text);
+      var response =
+          await AuthAPI().login(emailController.text, passwordController.text);
+      if (response.statusCode != 200) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Erro"),
+                  titleTextStyle: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
+                  content: Text(verifyStatusCode(response.statusCode)),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "OK",
+                          style: TextStyle(color: Colors.black),
+                        )),
+                  ],
+                ));
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) {
+            return const InitialScreen();
+          },
+        ));
+      }
     } finally {
       setState(() {
         loading = false;
@@ -193,7 +198,7 @@ class _LoginState extends State<Login> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Não tem uma contra? "),
+                          const Text("Não tem uma conta? "),
                           TextButton(
                               onPressed: () {
                                 Navigator.pushReplacement(context,
@@ -249,6 +254,23 @@ String verifyContent(String e) {
     case "wrong-password":
       message = "Senha incorreta, verifique tente novamente";
       break;
+    default:
+      break;
+  }
+  return message;
+}
+
+String verifyStatusCode(int s) {
+  String message = "Algo deu errado ao tentar fazer login";
+  switch (s) {
+    case 401:
+      message = "Email ou senha incorretos";
+      break;
+
+    case 500:
+      message = "Erro interno do servidor";
+      break;
+
     default:
       break;
   }

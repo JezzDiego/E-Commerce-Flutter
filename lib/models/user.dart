@@ -10,7 +10,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json)
       : name = json["name"],
-        phoneNumber = json["phoneNumber"],
+        phoneNumber = json["phone"],
         email = json["email"],
         adress = json["addresses"] != null && json["addresses"].length > 0
             ? Adress.fromJson(json["addresses"][0] ?? [])
@@ -18,15 +18,17 @@ class User {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "phoneNumber": phoneNumber,
+        "phone": phoneNumber,
         "email": email,
         "adress": adress,
       };
 
   User.fromSnapshot(snapshot)
-      : name = snapshot.data()["name"],
+      : name = snapshot.data()["name"] != null
+            ? snapshot.data()["name"]
+            : snapshot.data()["displayName"],
         email = snapshot.data()["email"],
-        phoneNumber = snapshot.data()["phoneNumber"],
+        phoneNumber = snapshot.data()["phone"],
         adress = snapshot.data()["addresses"] != null &&
                 snapshot.data()["addresses"].length > 0
             ? Adress.fromJson(snapshot.data()["addresses"][0] ?? [])
