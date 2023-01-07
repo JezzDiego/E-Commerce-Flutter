@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'fisical_address.dart';
+
 class Carrinho extends StatefulWidget {
   const Carrinho({Key? key}) : super(key: key);
 
@@ -96,7 +98,12 @@ class _CarrinhoState extends State<Carrinho> {
                           borderRadius: BorderRadius.circular(8.0),
                         )),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FisicalAddress()));
+                      },
                       child: Text(
                         "Confirmar pedido",
                         style: GoogleFonts.inter(

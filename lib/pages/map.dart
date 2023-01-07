@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -17,19 +16,18 @@ class MapPageState extends State<MapPage> {
 
   late final CameraPosition _initialPosition = CameraPosition(
     target: widget.latLong,
-    zoom: 11,
+    bearing: 10,
+    zoom: 18,
   );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _initialPosition,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
+    return GoogleMap(
+      mapType: MapType.normal,
+      initialCameraPosition: _initialPosition,
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
     );
   }
 }
