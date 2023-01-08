@@ -17,7 +17,7 @@ class MapPageState extends State<MapPage> {
   late final CameraPosition _initialPosition = CameraPosition(
     target: widget.latLong,
     bearing: 10,
-    zoom: 18,
+    zoom: 20,
   );
 
   @override
@@ -27,6 +27,12 @@ class MapPageState extends State<MapPage> {
       initialCameraPosition: _initialPosition,
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
+      },
+      markers: {
+        Marker(
+          markerId: const MarkerId('marker'),
+          position: widget.latLong,
+        ),
       },
     );
   }

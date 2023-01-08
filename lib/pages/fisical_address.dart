@@ -41,7 +41,7 @@ class _FisicalAddressState extends State<FisicalAddress> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.76,
               child: const MapPage(
-                  latLong: LatLng(-9.734345618573025, -36.65568920392257)),
+                  latLong: LatLng(-9.734482837823514, -36.6556828018377)),
             )
           ],
         ));

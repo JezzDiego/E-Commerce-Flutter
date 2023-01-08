@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/models/user.dart';
 import 'package:araplantas_mobile/pages/my_account.dart';
 import 'package:flutter/material.dart';
 import '../pages/carrinho.dart';
@@ -5,20 +6,31 @@ import '../pages/home.dart';
 import '../pages/saved_items.dart';
 
 class Footer extends StatefulWidget {
-  const Footer({Key? key}) : super(key: key);
+  final User user;
+  const Footer({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<Footer> createState() => _FooterState();
+  State<Footer> createState() => _FooterState(user);
 }
 
 class _FooterState extends State<Footer> {
+  late User _user;
+  _FooterState(User _user) {
+    _user = _user;
+  }
+
   int _actualIndex = 0;
-  final List<Widget> _screens = [
-    const MyHomePage(),
-    const Carrinho(),
-    const SavedItems(),
-    const MyAccount(),
+  late final List<Widget> _screens = [
+    MyHomePage(user: _user),
+    Carrinho(user: _user),
+    SavedItems(user: _user),
+    MyAccount(user: _user),
   ];
+
+  @override
+  void initState() {
+    _user = widget.user;
+  }
 
   void onTabTapped(int index) {
     setState(() {
@@ -51,7 +63,7 @@ class _FooterState extends State<Footer> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border, color: Colors.black),
             label: 'Itens Salvos',
-            tooltip: 'Itens salvos',
+            tooltip: 'Itens Salvos',
             activeIcon: Icon(Icons.favorite, color: Colors.black),
           ),
           BottomNavigationBarItem(

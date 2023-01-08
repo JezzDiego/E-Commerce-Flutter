@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/user.dart';
 import '../pages/product_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
@@ -6,7 +7,9 @@ import '../models/item.dart';
 class HomeItemCard extends StatefulWidget {
   final Item item;
   final String itemId;
-  const HomeItemCard({Key? key, required this.item, required this.itemId})
+  final User user;
+  const HomeItemCard(
+      {Key? key, required this.item, required this.itemId, required this.user})
       : super(key: key);
 
   @override
@@ -25,7 +28,7 @@ class _HomeItemCardState extends State<HomeItemCard> {
           Navigator.push(context, MaterialPageRoute(builder: ((context) {
             return ProductDetails(
               item: widget.item,
-              itemId: widget.itemId,
+              user: widget.user,
             );
           })));
         },
@@ -41,7 +44,9 @@ class _HomeItemCardState extends State<HomeItemCard> {
                 height: 180,
                 width: 180,
                 child: Image.network(
-                  widget.item.imgUrl,
+                  widget.item.imgUrl != null || widget.item.imgUrl != ""
+                      ? widget.item.imgUrl
+                      : "https://static.thenounproject.com/png/3734341-200.png",
                   width: 120,
                   height: 130,
                 ),

@@ -1,7 +1,9 @@
-import 'package:araplantas_mobile/components/google_sign_in.dart';
+import 'dart:convert';
+
 import 'package:araplantas_mobile/components/initial_screen.dart';
 import 'package:araplantas_mobile/data/auth_api.dart';
 import 'package:araplantas_mobile/main.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -54,9 +56,15 @@ class _LoginState extends State<Login> {
                   ],
                 ));
       } else {
+        String authToken = jsonDecode(response.body)["token"]["token"];
+        UserModel.User user =
+            UserModel.User.fromJson(jsonDecode(response.body)["user"]);
+        user.authToken = authToken;
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return const InitialScreen();
+            return InitialScreen(
+              user: user,
+            );
           },
         ));
       }
@@ -160,40 +168,6 @@ class _LoginState extends State<Login> {
                         const Center(
                           child: CircularProgressIndicator(),
                         ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          buildHorizontalLine(),
-                          Text("Ou continue com",
-                              style: GoogleFonts.inter(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                          buildHorizontalLine(),
-                        ],
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: IconButton(
-                              onPressed: () {
-                                final provider =
-                                    Provider.of<GoogleSignInProvider>(context,
-                                        listen: false);
-                                provider.googleLogin().then((value) =>
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const HomePage())));
-                              },
-                              icon: const Image(
-                                image: AssetImage("images/google.png"),
-                              )),
-                        ),
-                      ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

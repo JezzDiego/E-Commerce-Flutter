@@ -41,6 +41,7 @@ dependencies:
   syncfusion_flutter_datagrid: ^20.2.45
   animated_card: ^2.0.0
   google_maps_flutter:
+  google_maps_flutter_web:
   http:
   flutter_dotenv: ^5.0.2
 

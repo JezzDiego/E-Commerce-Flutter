@@ -1,8 +1,10 @@
+import 'package:araplantas_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 import 'footer.dart';
 
 class InitialScreen extends StatefulWidget {
-  const InitialScreen({Key? key}) : super(key: key);
+  final User user;
+  const InitialScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<InitialScreen> createState() => _InitialScreenState();
@@ -11,11 +13,11 @@ class InitialScreen extends StatefulWidget {
 class _InitialScreenState extends State<InitialScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Text('Página Inicial'),
       ),
-      bottomNavigationBar: Footer(),
+      bottomNavigationBar: Footer(user: widget.user),
     );
   }
 }

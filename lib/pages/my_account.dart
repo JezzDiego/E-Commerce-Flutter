@@ -1,4 +1,7 @@
 import 'package:araplantas_mobile/components/google_sign_in.dart';
+import 'package:araplantas_mobile/data/auth_api.dart';
+import 'package:araplantas_mobile/data/item_api.dart';
+import 'package:araplantas_mobile/models/user.dart' as UserModel;
 import 'package:araplantas_mobile/pages/login.dart';
 import 'package:araplantas_mobile/pages/my_info.dart';
 import 'package:araplantas_mobile/pages/my_orders.dart';
@@ -8,15 +11,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MyAccount extends StatefulWidget {
-  const MyAccount({Key? key}) : super(key: key);
+  final UserModel.User user;
+
+  const MyAccount({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyAccount> createState() => _MyAccountState();
 }
 
 class _MyAccountState extends State<MyAccount> {
-  final user = FirebaseAuth.instance.currentUser!;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,7 +45,7 @@ class _MyAccountState extends State<MyAccount> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: NetworkImage(user.photoURL ??
+                          image: NetworkImage(
                               "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"),
                           fit: BoxFit.fill),
                     ))),
@@ -52,9 +55,9 @@ class _MyAccountState extends State<MyAccount> {
                   height: 12,
                 ),
                 Text(
-                    user.displayName != null
-                        ? user.displayName!.split(" ")[0]
-                        : user.email!,
+                    widget.user.name != null
+                        ? widget.user.name!.split(" ")[0]
+                        : widget.user.email!,
                     style: GoogleFonts.inter(
                         fontSize: 24, fontWeight: FontWeight.bold)),
               ],
@@ -71,7 +74,7 @@ class _MyAccountState extends State<MyAccount> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: ((context) {
-                      return const MyOrders();
+                      return MyOrders(user: widget.user);
                     })));
                   },
                   child: Column(
@@ -103,7 +106,7 @@ class _MyAccountState extends State<MyAccount> {
               ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                  return const MyInfo();
+                  return MyInfo(user: widget.user);
                 })));
               },
               child: Padding(
@@ -128,9 +131,8 @@ class _MyAccountState extends State<MyAccount> {
           style: TextButton.styleFrom(
               primary: Colors.black, backgroundColor: Colors.white),
           onPressed: () {
-            final provider =
-                Provider.of<GoogleSignInProvider>(context, listen: false);
-            provider.logout().then((value) => Navigator.pushReplacement(
+            final response = AuthAPI().logout();
+            response.then((value) => Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => const Login())));
           },
           child: Padding(

@@ -1,20 +1,22 @@
+import 'package:araplantas_mobile/data/item_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/item.dart';
+import '../models/user.dart' as UserModel;
 import '../components/saved_item_card.dart';
 
 class SavedItems extends StatefulWidget {
-  const SavedItems({Key? key}) : super(key: key);
+  final UserModel.User user;
+
+  const SavedItems({Key? key, required this.user}) : super(key: key);
 
   @override
   _SavedItemsState createState() => _SavedItemsState();
 }
 
 class _SavedItemsState extends State<SavedItems> {
-  final user = FirebaseAuth.instance.currentUser!;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,13 +40,14 @@ class _SavedItemsState extends State<SavedItems> {
   buildBody() {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
-      child: StreamBuilder<List<Item>>(
-          stream: readSavedItems(),
+      child: FutureBuilder<List<Item>>(
+          future: ItemApi(authToken: widget.user.authToken!)
+              .findUserSavedItems(widget.user.id.toString()),
           builder: ((context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Algo deu errado");
             } else if (snapshot.hasData) {
-              final items = snapshot.data;
+              final items = snapshot.data!;
               return items == null || items.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -88,13 +91,9 @@ class _SavedItemsState extends State<SavedItems> {
     );
   }
 
-  Stream<List<Item>> readSavedItems() => FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
-      .collection('savedItems')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
-
-  Widget buildSavedItems(Item savedItem) => SavedItemCard(item: savedItem);
+  Widget buildSavedItems(Item savedItem) => SavedItemCard(
+        item: savedItem,
+        user: widget.user,
+        onRemove: () => setState(() {}),
+      );
 }
