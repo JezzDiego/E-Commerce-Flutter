@@ -7,16 +7,16 @@ import '../models/item.dart';
 import '../models/user.dart' as UserModel;
 import '../components/saved_item_card.dart';
 
-class PurshasedItems extends StatefulWidget {
+class SavedItems extends StatefulWidget {
   final UserModel.User user;
 
-  const PurshasedItems({Key? key, required this.user}) : super(key: key);
+  const SavedItems({Key? key, required this.user}) : super(key: key);
 
   @override
-  _PurshasedItemsState createState() => _PurshasedItemsState();
+  _SavedItemsState createState() => _SavedItemsState();
 }
 
-class _PurshasedItemsState extends State<PurshasedItems> {
+class _SavedItemsState extends State<SavedItems> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,7 +25,7 @@ class _PurshasedItemsState extends State<PurshasedItems> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            'Itens Comprados',
+            'Itens Salvos',
             style: GoogleFonts.inter(),
           ),
           centerTitle: false,
@@ -42,12 +42,12 @@ class _PurshasedItemsState extends State<PurshasedItems> {
       padding: const EdgeInsets.only(top: 20.0),
       child: FutureBuilder<List<Item>>(
           future: ItemApi(authToken: widget.user.authToken!)
-              .findUserPurshasedItems(widget.user.id.toString()),
+              .findUserSavedItems(widget.user.id.toString()),
           builder: ((context, snapshot) {
             if (snapshot.hasError) {
               return const Text("Algo deu errado");
             } else if (snapshot.hasData) {
-              final items = snapshot.data;
+              final items = snapshot.data!;
               return items == null || items.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +57,7 @@ class _PurshasedItemsState extends State<PurshasedItems> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              "Você ainda não comprou nenhum item",
+                              "Você ainda não salvou nenhum item",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -91,5 +91,9 @@ class _PurshasedItemsState extends State<PurshasedItems> {
     );
   }
 
-  Widget buildSavedItems(Item savedItem) => SavedItemCard(item: savedItem);
+  Widget buildSavedItems(Item savedItem) => SavedItemCard(
+        item: savedItem,
+        user: widget.user,
+        onRemove: () => setState(() {}),
+      );
 }

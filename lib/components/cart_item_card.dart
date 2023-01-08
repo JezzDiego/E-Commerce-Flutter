@@ -12,7 +12,8 @@ class CartItem extends StatefulWidget {
   final UserModel.User user;
   final Function(double totalPrice) notifyParent;
   final double totalPrice;
-  const CartItem(
+  late int quantity = 1;
+  CartItem(
       {Key? key,
       required this.item,
       required this.user,
@@ -105,12 +106,6 @@ class _CartItemState extends State<CartItem> {
                       icon: const Icon(Icons.highlight_remove),
                       onPressed: () {
                         removeToCart(context, widget.item.id);
-                        /*FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user.uid)
-                    .collection('cart')
-                    .doc(widget.item.id)
-                    .delete();*/
                       },
                     )
                   : const Center(child: CircularProgressIndicator()),
@@ -180,7 +175,7 @@ class _CartItemState extends State<CartItem> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl != null || widget.item.imgUrl != ""
+            widget.item.imgUrl != null && widget.item.imgUrl != ""
                 ? widget.item.imgUrl
                 : "https://static.thenounproject.com/png/3734341-200.png",
             width: 120,
@@ -194,6 +189,7 @@ class _CartItemState extends State<CartItem> {
   incrementCounter() {
     setState(() {
       counter++;
+      widget.quantity = counter;
       textColor = Colors.black;
     });
     widget.notifyParent(widget.totalPrice + widget.item.price * counter);
@@ -203,11 +199,13 @@ class _CartItemState extends State<CartItem> {
     if (counter > 1) {
       setState(() {
         counter--;
+        widget.quantity = counter;
       });
     }
 
     if (counter == 1) {
       setState(() {
+        widget.quantity = counter;
         textColor = Colors.grey;
       });
     }

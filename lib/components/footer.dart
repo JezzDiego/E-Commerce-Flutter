@@ -3,7 +3,7 @@ import 'package:araplantas_mobile/pages/my_account.dart';
 import 'package:flutter/material.dart';
 import '../pages/carrinho.dart';
 import '../pages/home.dart';
-import '../pages/purshased_items.dart';
+import '../pages/saved_items.dart';
 
 class Footer extends StatefulWidget {
   final User user;
@@ -23,7 +23,7 @@ class _FooterState extends State<Footer> {
   late final List<Widget> _screens = [
     MyHomePage(user: _user),
     Carrinho(user: _user),
-    PurshasedItems(user: _user),
+    SavedItems(user: _user),
     MyAccount(user: _user),
   ];
 
@@ -62,8 +62,8 @@ class _FooterState extends State<Footer> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border, color: Colors.black),
-            label: 'Itens Comprados',
-            tooltip: 'Itens comprados',
+            label: 'Itens Salvos',
+            tooltip: 'Itens Salvos',
             activeIcon: Icon(Icons.favorite, color: Colors.black),
           ),
           BottomNavigationBarItem(

@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class ProductDetails extends StatefulWidget {
   final Item item;
@@ -29,7 +30,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return FutureBuilder<Item>(
       future: ItemApi(authToken: widget.user.authToken!)
-          .getSavedUserItem(widget.item.id, widget.user.id.toString()),
+          .getCartUserItem(widget.item.id, widget.user.id.toString()),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
           if (snapshot.error.toString() == "Can't get item.") {
@@ -51,35 +52,19 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Future saveItem(String itemId) async {
-    setState(() {
-      currentIcon = const Icon(
-        Icons.favorite,
-        color: Colors.red,
-      );
-    });
-    try {
-      /*final docItem = FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('savedItems')
-          .doc(itemId);*/
-
-      final item = Item(
-          id: itemId,
-          name: widget.item.name,
-          price: widget.item.price,
-          imgUrl: widget.item.imgUrl != null || widget.item.imgUrl != ""
-              ? widget.item.imgUrl
-              : "https://static.thenounproject.com/png/3734341-200.png",
-          description: widget.item.description);
-      //await docItem.set(item.toJson());
-    } on FirebaseException catch (e) {
+  Future saveItem() async {
+    Response response = await ItemApi(authToken: widget.user.authToken!)
+        .saveUserItem(widget.user.id.toString(), widget.item.id);
+    if (response.statusCode == 200) {
+      setState(() {
+        currentIcon = const Icon(Icons.favorite, color: Colors.red);
+      });
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text("Erro"),
-          content: Text(e.toString()),
+          content: Text(response.body.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -89,12 +74,22 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
       );
-    } catch (e) {
+    }
+  }
+
+  Future deleteSavedItem() async {
+    Response response = await ItemApi(authToken: widget.user.authToken!)
+        .deleteUserSavedItem(widget.user.id.toString(), widget.item.id);
+    if (response.statusCode == 200) {
+      setState(() {
+        currentIcon = const Icon(Icons.favorite_border);
+      });
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text("Erro"),
-          content: Text(e.toString()),
+          content: Text(response.body.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -117,8 +112,26 @@ class _ProductDetailsState extends State<ProductDetails> {
           foregroundColor: Colors.black,
           backgroundColor: Colors.transparent,
           actions: [
-            IconButton(
-                icon: currentIcon, onPressed: () => {saveItem(widget.item.id)})
+            FutureBuilder(
+              future: ItemApi(authToken: widget.user.authToken!)
+                  .getSavedUserItem(widget.item.id, widget.user.id.toString()),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return IconButton(
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                      onPressed: () => {deleteSavedItem()});
+                } else {
+                  return IconButton(
+                      icon: const Icon(
+                        Icons.favorite_border,
+                      ),
+                      onPressed: () => {saveItem()});
+                }
+              },
+            )
           ],
           leading: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -229,29 +242,20 @@ class _ProductDetailsState extends State<ProductDetails> {
     setState(() {
       isLoading = true;
     });
-    try {
-      /*final docItem = FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('cart')
-          .doc(itemId);*/
-
-      final item = Item(
-          id: itemId,
-          name: widget.item.name,
-          price: widget.item.price,
-          imgUrl: widget.item.imgUrl,
-          description: widget.item.description);
-      final response = await ItemApi(authToken: widget.user.authToken!)
-          .saveUserItem(widget.user.id.toString(), item.id, 1, "saved");
-      print(response.body);
-      //await docItem.set(item.toJson());
-    } on FirebaseException catch (e) {
+    final item = Item(
+        id: itemId,
+        name: widget.item.name,
+        price: widget.item.price,
+        imgUrl: widget.item.imgUrl,
+        description: widget.item.description);
+    final response = await ItemApi(authToken: widget.user.authToken!)
+        .addItemtoCart(widget.user.id.toString(), item.id);
+    if (response.statusCode != 200) {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text("Erro"),
-          content: Text(e.toString()),
+          title: Text("Error"),
+          content: Text(response.body.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -261,25 +265,13 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
       );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(e.toString()),
-          content: Text(e.toString()),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"))
-          ],
-        ),
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
     }
+    setState(() {
+      isLoading = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Item adicionado ao carrinho'),
+      duration: Duration(seconds: 2),
+    ));
   }
 }

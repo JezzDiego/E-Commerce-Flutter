@@ -2,19 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../data/item_api.dart';
 import '../models/item.dart';
+import '../models/user.dart' as UserModel;
 
 class SavedItemCard extends StatefulWidget {
   final Item item;
-
-  const SavedItemCard({Key? key, required this.item}) : super(key: key);
+  final UserModel.User user;
+  final Function() onRemove;
+  const SavedItemCard(
+      {Key? key,
+      required this.item,
+      required this.user,
+      required this.onRemove})
+      : super(key: key);
 
   @override
   _SavedItemCardState createState() => _SavedItemCardState();
 }
 
 class _SavedItemCardState extends State<SavedItemCard> {
-  final user = FirebaseAuth.instance.currentUser!;
   bool isLoading = false;
 
   @override
@@ -60,7 +68,8 @@ class _SavedItemCardState extends State<SavedItemCard> {
                       child: !isLoading
                           ? ElevatedButton(
                               onPressed: () {
-                                addToCart(context, widget.item.id);
+                                addToCart(context);
+                                removeItemFromSaved(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: const Color(0xFFFEE440),
@@ -92,12 +101,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
               color: const Color(0xFF808080),
               icon: const Icon(Icons.highlight_remove),
               onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user.uid)
-                    .collection('savedItems')
-                    .doc(widget.item.id)
-                    .delete();
+                removeItemFromSaved(context);
               },
             ),
           ],
@@ -124,7 +128,7 @@ class _SavedItemCardState extends State<SavedItemCard> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Image.network(
-            widget.item.imgUrl != null || widget.item.imgUrl != ""
+            widget.item.imgUrl != null && widget.item.imgUrl != ""
                 ? widget.item.imgUrl
                 : "https://static.thenounproject.com/png/3734341-200.png",
             width: 120,
@@ -135,32 +139,24 @@ class _SavedItemCardState extends State<SavedItemCard> {
     );
   }
 
-  Future addToCart(context, String itemId) async {
+  Future addToCart(context) async {
     setState(() {
       isLoading = true;
     });
-    try {
-      final docItem = FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('cart')
-          .doc(itemId);
-
-      final item = Item(
-          id: itemId,
-          name: widget.item.name,
-          price: widget.item.price,
-          imgUrl: widget.item.imgUrl != null || widget.item.imgUrl != ""
-              ? widget.item.imgUrl
-              : "https://static.thenounproject.com/png/3734341-200.png",
-          description: widget.item.description);
-      await docItem.set(item.toJson());
-    } on FirebaseException catch (e) {
+    final item = Item(
+        id: widget.item.id,
+        name: widget.item.name,
+        price: widget.item.price,
+        imgUrl: widget.item.imgUrl,
+        description: widget.item.description);
+    Response response = await ItemApi(authToken: widget.user.authToken!)
+        .addItemtoCart(widget.user.id.toString(), item.id);
+    if (response.statusCode != 200) {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text("Erro"),
-          content: Text(e.toString()),
+          title: Text("Error"),
+          content: Text(response.body.toString()),
           actions: [
             TextButton(
                 onPressed: () {
@@ -170,29 +166,41 @@ class _SavedItemCardState extends State<SavedItemCard> {
           ],
         ),
       );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(e.toString()),
-          content: Text(e.toString()),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"))
-          ],
-        ),
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Item adicionado ao carrinho'),
-        duration: Duration(seconds: 2),
-      ));
     }
+    setState(() {
+      isLoading = false;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Item adicionado ao carrinho'),
+      duration: Duration(seconds: 2),
+    ));
+  }
+
+  Future removeItemFromSaved(context) async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await ItemApi(authToken: widget.user.authToken!)
+        .deleteUserSavedItem(widget.user.id.toString(), widget.item.id);
+    if (response.statusCode != 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("Error"),
+          content: Text(response.body.toString()),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+    }
+    setState(() {
+      isLoading = false;
+      widget.onRemove();
+    });
   }
 }

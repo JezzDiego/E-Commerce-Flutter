@@ -74,7 +74,7 @@ class _MyAccountState extends State<MyAccount> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: ((context) {
-                      return const MyOrders();
+                      return MyOrders(user: widget.user);
                     })));
                   },
                   child: Column(

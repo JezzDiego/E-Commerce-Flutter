@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../models/user.dart' as UserModel;
+import 'fisical_address.dart';
 
 class Carrinho extends StatefulWidget {
   final UserModel.User user;
@@ -20,6 +20,7 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   List<Item> items = [];
+  List<CartItem> cartItems = [];
   double totalPrice = 0;
   double initialPrice = 0;
   @override
@@ -55,12 +56,13 @@ class _CarrinhoState extends State<Carrinho> {
             Expanded(
               child: FutureBuilder<List<Item>>(
                   future: ItemApi(authToken: widget.user.authToken!)
-                      .findUserSavedItems(widget.user.id.toString()),
-                  builder: ((context, snapshot) {
+                      .findUserCartItems(widget.user.id.toString()),
+                  builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Text("Algo deu errado");
                     } else if (snapshot.hasData) {
                       items = snapshot.data != null ? snapshot.data! : [];
+                      cartItems = items.map(buildCartItem).toList();
                       return items.isEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -79,14 +81,12 @@ class _CarrinhoState extends State<Carrinho> {
                             )
                           : ListView(
                               shrinkWrap: true,
-                              children: items.isNotEmpty
-                                  ? items.map(buildCartItem).toList()
-                                  : [],
+                              children: items.isNotEmpty ? cartItems : [],
                             );
                     } else {
                       return const Center(child: CircularProgressIndicator());
                     }
-                  })),
+                  }),
             ),
             Container(
               decoration: const BoxDecoration(
@@ -125,7 +125,7 @@ class _CarrinhoState extends State<Carrinho> {
                           borderRadius: BorderRadius.circular(8.0),
                         )),
                       ),
-                      onPressed: () {},
+                      onPressed: confirmOrder,
                       child: Text(
                         "Confirmar pedido",
                         style: GoogleFonts.inter(
@@ -142,6 +142,57 @@ class _CarrinhoState extends State<Carrinho> {
         ),
       ),
     );
+  }
+
+  Future confirmOrder() async {
+    final itens = cartItems
+        .map((e) => {"item_id": e.item.id, "quantity": e.quantity})
+        .toList();
+    final response = await ItemApi(authToken: widget.user.authToken!)
+        .confirmOrder(widget.user.id.toString(), itens);
+    if (response.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: ((context) => AlertDialog(
+                  title: const Text("Pedido confirmado!"),
+                  content: const Text(
+                      "Seu pedido foi confirmado! Você já pode ir busca-lo"),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FisicalAddress())),
+                        child: const Text("Ver nosso endereço físico."),
+                        style: TextButton.styleFrom(
+                          primary: Colors.blue,
+                          textStyle: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                        )),
+                  ])));
+    } else {
+      showDialog(
+          context: context,
+          builder: ((context) => AlertDialog(
+                  title: const Text("Algo deu errado!"),
+                  content: const Text(
+                      "Não foi possível confirmar seu pedido. Tente novamente mais tarde"),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Ok"),
+                        style: TextButton.styleFrom(
+                          primary: Colors.blue,
+                          textStyle: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                        )),
+                  ])));
+    }
+    setState(() {});
   }
 
   double setCartTotalPrice(double totalPrice) {
@@ -165,7 +216,7 @@ class _CarrinhoState extends State<Carrinho> {
       });
     });*/
     ItemApi(authToken: widget.user.authToken!)
-        .findUserSavedItems(widget.user.id.toString());
+        .findUserCartItems(widget.user.id.toString());
   }
 
   /*Stream<List<Item>> readCartItems() => FirebaseFirestore.instance
@@ -176,7 +227,7 @@ class _CarrinhoState extends State<Carrinho> {
       .map((snapshot) =>
           snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());*/
 
-  Widget buildCartItem(Item cartItem) {
+  CartItem buildCartItem(Item cartItem) {
     return CartItem(
       item: cartItem,
       user: widget.user,

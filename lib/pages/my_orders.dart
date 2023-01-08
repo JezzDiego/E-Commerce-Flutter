@@ -1,14 +1,21 @@
+import 'package:araplantas_mobile/components/order.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/item_api.dart';
+import '../models/item.dart';
+import '../models/user.dart';
+
 class MyOrders extends StatefulWidget {
-  const MyOrders({Key? key}) : super(key: key);
+  final User user;
+  const MyOrders({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MyOrders> createState() => _MyOrdersState();
 }
 
 class _MyOrdersState extends State<MyOrders> {
+  List<Item> items = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,64 +45,46 @@ class _MyOrdersState extends State<MyOrders> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "25 de Dezembro",
-                        style: GoogleFonts.inter(fontSize: 20),
-                      ),
-                      Text(
-                        "R\$ 450.00",
-                        style: GoogleFonts.inter(fontSize: 20),
-                      )
-                    ]),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Entregue",
-                        style: GoogleFonts.inter(
-                            fontSize: 16, color: Colors.greenAccent[700]),
-                      ),
-                      Text(
-                        "#14124",
-                        style:
-                            GoogleFonts.inter(color: Colors.grey, fontSize: 16),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 115,
-                        height: 115,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: Colors.grey.shade300),
-                          image: const DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage("images/printer.png"),
+          FutureBuilder(
+            future: ItemApi(authToken: widget.user.authToken!)
+                .findUserPurshasedItems(widget.user.id.toString()),
+            builder: ((context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text("Algo deu errado");
+              } else if (snapshot.hasData) {
+                items = snapshot.data as List<Item>;
+                return items == null || items.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.heart_broken, size: 80),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Você ainda não comprou nenhum item",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                        ],
+                      )
+                    : ListView(
+                        shrinkWrap: true,
+                        children: items.map(buildOrders).toList(),
+                      );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
           ),
         ],
       ),
     );
   }
+
+  Widget buildOrders(Item item) => Order(
+        item: item,
+        user: widget.user,
+      );
 }

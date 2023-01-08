@@ -16,7 +16,7 @@ class Item {
       id: json['id'].toString(),
       name: json['name'],
       price: double.parse(json['price']),
-      imgUrl: json['image_url'] != null || json['image_url'] != ""
+      imgUrl: json['image_url'] != null && json['image_url'] != ""
           ? json["image_url"]
           : "https://static.thenounproject.com/png/3734341-200.png",
       description: json['description'] != null ? json["description"] : "");
