@@ -29,14 +29,7 @@ class _SignUpState extends State<SignUp> {
       loading = true;
     });
     try {
-      /*await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-
-      await FirebaseFirestore.instance.collection('users').add({
-        'email': emailController.text,
-        'displayName': nameController.text,
-      });*/
-      final response = await UserApi().create(UserModel.User(
+      final response = await UserApi(authToken: "").create(UserModel.User(
           email: emailController.text,
           name: nameController.text,
           password: passwordController.text));

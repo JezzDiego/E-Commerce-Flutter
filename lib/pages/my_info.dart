@@ -1,3 +1,4 @@
+import 'package:araplantas_mobile/data/user_api.dart';
 import 'package:araplantas_mobile/models/adress.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,176 +25,251 @@ class _MyInfoState extends State<MyInfo> {
   bool loading = false;
 
   @override
+  void initState() {
+    super.initState();
+    nameCodeContrller.text = widget.user.name!;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Minhas Informações",
-          style: GoogleFonts.inter(),
+        appBar: AppBar(
+          title: Text(
+            "Minhas Informações",
+            style: GoogleFonts.inter(),
+          ),
+          centerTitle: false,
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
         ),
-        centerTitle: false,
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: SizedBox(
-                  width: 800,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        body: FutureBuilder<UserModel.User>(
+          future: UserApi(authToken: widget.user.authToken!)
+              .findById(widget.user.id.toString()),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "Erro ao carregar as informações",
+                  style: GoogleFonts.inter(),
+                ),
+              );
+            } else if (snapshot.hasData) {
+              final user = snapshot.data;
+              user!.authToken = widget.user.authToken!;
+              return ListView(
+                children: [
+                  Column(
                     children: [
-                      Text(
-                        "Pessoais",
-                        style: GoogleFonts.inter(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      editAddress
-                          ? buildTextFieldInfo(
-                              "Nome", TextInputType.text, nameCodeContrller)
-                          : buildInfo(
-                              "Nome Completo",
-                              widget.user.name != null
-                                  ? "${widget.user.name}"
-                                  : "Não cadastrado, recarregue a página para ver as mudanças"),
-                      const SizedBox(height: 40),
-                      buildInfo("Email", widget.user.email!),
-                      const SizedBox(height: 40),
-                      Text(
-                        "Endereço",
-                        style: GoogleFonts.inter(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (editAddress == true) ...[
-                        const SizedBox(height: 40),
-                        buildTextFieldInfo(
-                            "CEP", TextInputType.number, zipCodeContrller),
-                        const SizedBox(height: 40),
-                        buildTextFieldInfo(
-                            "Rua", TextInputType.text, streetController),
-                        const SizedBox(height: 40),
-                        buildTextFieldInfo(
-                            "Bairro", TextInputType.text, districtContrller),
-                        const SizedBox(height: 40),
-                        buildTextFieldInfo("Número da Casa",
-                            TextInputType.number, houseNumberContrller),
-                        const SizedBox(height: 40),
-                      ],
-                      if (editAddress == false) ...[
-                        widget.user.adress == null
-                            ? buildInfo("Rua", "Não cadastrado")
-                            : buildAdress(widget.user.adress!),
-                      ],
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (loading == false && editAddress == true) ...[
-                            SizedBox(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          const Color(0xFFFEE440)),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  )),
-                                ),
-                                onPressed: () {
-                                  // widget.user.updateDisplayName(
-                                  //     nameCodeContrller.text);
-                                  createAdress(
-                                      zipCodeContrller.text,
-                                      streetController.text,
-                                      districtContrller.text,
-                                      houseNumberContrller.text);
-                                },
-                                child: Text(
-                                  "Salvar dados",
-                                  style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        child: SizedBox(
+                          width: 800,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Pessoais",
+                                style: GoogleFonts.inter(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ],
-                          if (editAddress == false) ...[
-                            SizedBox(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          const Color(0xFFFEE440)),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    editAddress = true;
-                                  });
-                                },
-                                child: Text(
-                                  "Editar dados",
-                                  style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                              const SizedBox(height: 40),
+                              editAddress
+                                  ? buildTextFieldInfo("Nome",
+                                      TextInputType.text, nameCodeContrller)
+                                  : buildInfo(
+                                      "Nome Completo",
+                                      user.name != null
+                                          ? "${widget.user.name}"
+                                          : "Não cadastrado, recarregue a página para ver as mudanças"),
+                              const SizedBox(height: 40),
+                              buildInfo("Email", widget.user.email!),
+                              const SizedBox(height: 40),
+                              Text(
+                                "Endereço",
+                                style: GoogleFonts.inter(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ]
-                        ],
-                      ),
+                              if (editAddress == true) ...[
+                                const SizedBox(height: 40),
+                                buildTextFieldInfo("CEP", TextInputType.number,
+                                    zipCodeContrller),
+                                const SizedBox(height: 40),
+                                buildTextFieldInfo("Rua", TextInputType.text,
+                                    streetController),
+                                const SizedBox(height: 40),
+                                buildTextFieldInfo("Bairro", TextInputType.text,
+                                    districtContrller),
+                                const SizedBox(height: 40),
+                                buildTextFieldInfo("Número da Casa",
+                                    TextInputType.number, houseNumberContrller),
+                                const SizedBox(height: 40),
+                              ],
+                              if (editAddress == false) ...[
+                                buildAdress(user.adress),
+                              ],
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (loading == false &&
+                                      editAddress == true) ...[
+                                    SizedBox(
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xFFFEE440)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          )),
+                                        ),
+                                        onPressed: () {
+                                          updateUser(
+                                              nameCodeContrller.text,
+                                              zipCodeContrller.text,
+                                              streetController.text,
+                                              districtContrller.text,
+                                              houseNumberContrller.text);
+                                          initState();
+                                        },
+                                        child: Text(
+                                          "Salvar dados",
+                                          style: GoogleFonts.inter(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  if (editAddress == false) ...[
+                                    SizedBox(
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  const Color(0xFFFEE440)),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          )),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            editAddress = true;
+                                          });
+                                        },
+                                        child: Text(
+                                          "Editar dados",
+                                          style: GoogleFonts.inter(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
+                ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ));
   }
 
-  Future<Adress?> readAdress() async {
-    print(widget.user.adress.toString());
-    final docAdress = FirebaseFirestore.instance
-        .collection('adresses')
-        .doc(widget.user.id.toString());
-
-    final snapshot = await docAdress.get();
-
-    if (snapshot.exists) {
-      return Adress.fromJson(snapshot.data()!);
+  Future updateUser(String name, String zipCode, String street, String district,
+      String houseNumber) async {
+    setState(() {
+      loading = true;
+    });
+    final response = await UserApi(authToken: widget.user.authToken!)
+        .update(widget.user.id.toString(), {
+      "name": name,
+      "addresses": [
+        {
+          "zipCode": zipCode,
+          "street": street,
+          "district": district,
+          "houseNumber": houseNumber
+        }
+      ]
+    });
+    if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("Sucesso!"),
+          content: const Text("Dados atualizados com sucesso"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
     } else {
-      return Adress(
-          id: -1,
-          zipCode: 'Não cadastrado',
-          street: 'Não cadastrado',
-          district: 'Não cadastrado',
-          houseNumber: 'Não cadastrado');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text("Erro ao atualizar dados!"),
+          content: Text(response.body),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
     }
+    setState(() {
+      loading = false;
+    });
   }
 
-  Widget buildAdress(Adress endereco) {
+  Widget buildAdress(Adress? endereco) {
+    if (endereco == null) {
+      return Column(children: [
+        const SizedBox(height: 40),
+        buildInfo("CEP", "Não Cadastrado!"),
+        const SizedBox(height: 40),
+        buildInfo("Rua", "Não Cadastrado!"),
+        const SizedBox(height: 40),
+        buildInfo("Bairro", "Não Cadastrado!"),
+        const SizedBox(height: 40),
+        buildInfo("Número da casa", "Não Cadastrado!"),
+        const SizedBox(height: 40),
+      ]);
+    }
     return Column(
       children: [
         const SizedBox(height: 40),
@@ -206,75 +282,6 @@ class _MyInfoState extends State<MyInfo> {
         buildInfo("Número da casa", endereco.houseNumber),
         const SizedBox(height: 40),
       ],
-    );
-  }
-
-  Future createAdress(String zipCode, String street, String district,
-      String houseNumber) async {
-    setState(() {
-      loading = true;
-      editAddress = false;
-    });
-    try {
-      // final docAdress =
-      //     FirebaseFirestore.instance.collection('adresses').doc(user.uid);
-
-      // final adress = Adress(
-      //     id: docAdress.id,
-      //     zipCode: zipCode,
-      //     street: street,
-      //     district: district,
-      //     houseNumber: houseNumber);
-      // await docAdress.set(adress.toJson());
-    } on FirebaseException catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(e.toString()),
-          content: const Text("Dados atualizados com sucesso"),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"))
-          ],
-        ),
-      );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(e.toString()),
-          content: const Text("Dados atualizados com sucesso"),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"))
-          ],
-        ),
-      );
-    } finally {
-      setState(() {
-        loading = false;
-      });
-    }
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text("Sucesso"),
-        content: const Text("Dados atualizados com sucesso"),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"))
-        ],
-      ),
     );
   }
 

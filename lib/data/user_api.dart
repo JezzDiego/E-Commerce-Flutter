@@ -7,6 +7,8 @@ import 'package:http/http.dart';
 
 class UserApi {
   final String _baseUrl = dotenv.env['API_URL']!;
+  String authToken;
+  UserApi({required this.authToken});
 
   Future<List<User>> findAll() async {
     Uri url = Uri.http(_baseUrl, "/users");
@@ -23,9 +25,18 @@ class UserApi {
 
   Future<User> findById(String id) async {
     Uri url = Uri.http(_baseUrl, "/users/$id");
-    final Response response = await http.get(url);
+    final Response response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${this.authToken}',
+      },
+    );
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      print(response.body);
+      final user = User.fromJson(jsonDecode(response.body));
+      print(user.toJson());
+      return user;
     } else {
       throw "Can't get user.";
     }
@@ -46,6 +57,16 @@ class UserApi {
       }),
     );
     return response;
+  }
+
+  Future<http.Response> update(String userId, dynamic body) async {
+    Uri url = Uri.http(_baseUrl, "/users/$userId");
+    return await http.put(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${this.authToken}',
+        },
+        body: jsonEncode(body));
   }
 
   Future<http.Response> delete(String id) {
