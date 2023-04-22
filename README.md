@@ -1,6 +1,6 @@
-# Araplantas Mobile
+# E-Commerce App
 
-Araplantas Mobile.
+E-Commerce App.
 
 ## Getting Started
 
